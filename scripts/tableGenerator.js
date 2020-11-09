@@ -1,6 +1,8 @@
 function Game(size) {
     this.size = size,
-    this.generateTableHtml = function(size) {
+
+    // Genera el tablero de juego en HTML.
+    this.generateTableHtml = function(size) { 
         var canvas = document.getElementById("canvas");
         var table = document.createElement("table");
         for (let i = 0; i < size; i++) {
@@ -15,13 +17,16 @@ function Game(size) {
         }
         canvas.appendChild(table);
     }
-    this.generateTable = function(size) {
+    // Genera una matriz llena de 0 del tamaño "size".
+    this.generateTable = function(size) {     
         return Array(size).fill(Array(size).fill(0));
     }
+    // Genera el camino en la fila indicada en HTML.
     this.printPathLevel1 = function() {
         var level1Path = document.getElementsByClassName("row10")[0];
         level1Path.classList.add("path");
     }
+    // Sustituye los 0 de la fila indicada por 2.
     this.level1 = function() {
         var map = this.generateTable(this.size);
         map.splice(10, 1, Array(this.size).fill(2));
@@ -32,4 +37,4 @@ var game = new Game(20);
 game.generateTableHtml(game.size);
 console.log(game);
 game.printPathLevel1();
-
+console.log(game.level1());
