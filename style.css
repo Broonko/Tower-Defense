@@ -1,0 +1,16 @@
+#canvas {
+    width: 800px;
+    height: 600px;
+    border: 1px solid black;
+}
+
+table {
+    background-color: green;
+}
+
+td {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+}
+
