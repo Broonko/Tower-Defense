@@ -18,7 +18,18 @@ function Game(size) {
     this.generateTable = function(size) {
         return Array(size).fill(Array(size).fill(0));
     }
+    this.printPathLevel1 = function() {
+        var level1Path = document.getElementsByClassName("row10")[0];
+        level1Path.classList.add("path");
+    }
+    this.level1 = function() {
+        var map = this.generateTable(this.size);
+        map.splice(10, 1, Array(this.size).fill(2));
+        return map;
+    }
 }
 var game = new Game(20);
 game.generateTableHtml(game.size);
 console.log(game);
+game.printPathLevel1();
+
