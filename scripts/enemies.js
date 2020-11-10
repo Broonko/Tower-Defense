@@ -8,7 +8,7 @@ function Enemy(size) {
         // Avisa al juego que ha llegado al final de la partida.
         if (this.x < size) {
         let cell = document.querySelector(`tr.row${this.y} > td.cell${this.x}`);
-        console.log(cell);
+        // console.log(cell);
         cell.classList.add('enemy');
         }
         // console.log(this.x);
@@ -26,15 +26,8 @@ function Enemy(size) {
         }
         // Borra el enemigo de la posición anterior sólo si está dentro del tablero.
         if ( previousX > -1) {
-        let cell = document.querySelector(`tr.row${previousY} > td.cell${previousX}`);
-        cell.classList.remove('enemy');
-        }
-        // Condición fin de juego.
-        if (this.x === size) {
-            clearInterval(game.gameTimer);
-            // this.x = 0;
-            alert ("GAME OVER");
-            return;
-        }    
+            let cell = document.querySelector(`tr.row${previousY} > td.cell${previousX}`);
+            cell.classList.remove('enemy');
+        } 
     }
 }
