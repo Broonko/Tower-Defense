@@ -1,11 +1,17 @@
 #canvas {
+    position: relative;
     width: 800px;
     height: 600px;
     border: 1px solid black;
+    
 }
 
 table {
+    position: absolute;
     background-color: green;
+    top: 40px;
+    left: 40px;
+    
 }
 
 td {
@@ -20,4 +26,18 @@ td {
 
 .enemy {
     background-color: red;
+}
+
+.towers {
+    background-color: blue ;
+}
+
+.healthDisplay {
+    position: absolute;
+    width: 150px;
+    height: 50px;
+    border: 2px solid red;
+    top: 40px;
+    right: 40px;
+    text-align: center;
 }

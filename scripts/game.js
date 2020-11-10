@@ -4,6 +4,8 @@ function Game(size) {
     this.animateTimer,
     this.moveTimer,
     this.health = 3,
+    // this.towers = new Tower(),
+    this.map,
     this.enemies = [],
     this.storage = [],
 
@@ -37,9 +39,28 @@ function Game(size) {
 
     // Sustituye los 0 de la fila indicada por 2.
     this.level1 = function() {
-        var map = this.generateTable(this.size);
-        map.splice(10, 1, Array(this.size).fill(2));
-        return map;
+        let field = this.generateTable(this.size);
+        field.splice(10, 1, Array(this.size).fill(2));
+        return field;
+    }
+
+    // Añade torres.
+    this.addTowers = function(cell) {
+        cell.classList.add("towers");
+    }
+
+    // Añade onclick en las celdas del mapa.
+    this.addClickEvent = function() {
+        self.map.forEach((row, r) => {
+            row.forEach((cell, c) => {
+                if (cell === 0) {
+                    let cellHtml = document.querySelector(`tr.row${r} > td.cell${c}`)
+                    cellHtml.onclick = function() {
+                        self.addTowers(cellHtml);   
+                    }
+                }
+            });
+        });
     }
 
     // Fin de partida.
@@ -53,31 +74,23 @@ function Game(size) {
     // Mueve e imprime los enemigos.
     this.animateEnemies = function() {
         if (self.enemies.length > 0) {
-            self.looseHealth();
+            if (self.enemies[0].x === self.size) {
+                self.enemies.shift();
+                self.looseHealth();
+                self.updateHealthDisplay();
+            } 
             if (self.health === 0) {
                 self.gameOver();
             }
             self.enemies.forEach(enemy => {
-                enemy.moveEnemy();
+                if (self.map[enemy.y][enemy.x] === 2 || enemy.x === -1) {
+                    enemy.moveRight();
+                }
+                console.log(enemy);
                 enemy.printEnemy();
             });
         }
     }
-
-        // let i = 0;
-        // function myLoop() {
-        //     setTimeout(function(){
-        //         if (i < self.enemies.length) {
-        //             self.enemies[i].moveEnemy();
-        //             self.enemies[i].printEnemy();
-        //             // console.log(i);
-        //             i++;
-        //             myLoop();
-        //         }  
-        //     }, 1000);           
-        // }
-        // myLoop();      
-
     
     // Genera los enemigos y los guarda en un array(storage).
     this.storeEnemies = function() {
@@ -93,28 +106,39 @@ function Game(size) {
         }
     }  
 
-    // Inicia el juego.
-    this.startLevel = function () {
-
-        this.storeEnemies();
-        this.moveTimer = setInterval(this.addEnemiesToMap, 800);
-        this.animateTimer = setInterval(this.animateEnemies, 300);
-    }
-
     // Quita salud al jugador.
     this.looseHealth = function() {
-        if (self.enemies[0].x === self.size) {
-            self.health--;
-            self.enemies.shift();
-        }
+        self.health--;   
+    }
+
+    // Muestra la salud del jugador.
+    this.displayHealth = function() {
+        let canvas = document.getElementById('canvas');
+        let healthDisplay = document.createElement('section');
+        healthDisplay.innerText = `HEALTH: ${self.health}`;
+        healthDisplay.classList.add('healthDisplay');
+        canvas.appendChild(healthDisplay);
+    }
+
+    // Actualiza la vida del jugador.
+    this.updateHealthDisplay = function() {
+        let healthDisplay = document.getElementsByClassName('healthDisplay')[0];
+        healthDisplay.innerText = `HEALTH: ${self.health}`;
+    }
+
+    // Inicia el juego.
+    this.startLevel = function () {
+        this.generateTableHtml(game.size);
+        this.map = this.level1();
+        this.printPathLevel1();
+        this.storeEnemies();
+        this.addClickEvent();
+        this.displayHealth();
+        this.moveTimer = setInterval(this.addEnemiesToMap, 600);
+        this.animateTimer = setInterval(this.animateEnemies, 350);
     }
 }
 
 var game = new Game(20);
-game.generateTableHtml(game.size);
 console.log(game);
-game.printPathLevel1();
 game.startLevel();
-
-
-
