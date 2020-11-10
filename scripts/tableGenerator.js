@@ -1,7 +1,7 @@
 function Game(size) {
     this.size = size,
     this.enemy = new Enemy(this.size),
-
+    self = this;
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function(size) { 
         var canvas = document.getElementById("canvas");
@@ -18,32 +18,40 @@ function Game(size) {
         }
         canvas.appendChild(table);
     }
+
     // Genera una matriz llena de 0 del tamaño "size".
     this.generateTable = function(size) {     
         return Array(size).fill(Array(size).fill(0));
     }
+
     // Genera el camino en la fila indicada en HTML.
     this.printPathLevel1 = function() {
         var level1Path = document.getElementsByClassName("row10")[0];
         level1Path.classList.add("path");
     }
+
     // Sustituye los 0 de la fila indicada por 2.
     this.level1 = function() {
         var map = this.generateTable(this.size);
         map.splice(10, 1, Array(this.size).fill(2));
         return map;
     }
-}
-// console.log(myEnemy);
 
-// var myEnemy = new Enemy(20);
+    // Mueve e imprime el enemigo.
+    this.animateEnemy = function() {
+        self.enemy.moveEnemy();
+        self.enemy.printEnemy();
+    }
+    
+    // Mueve e imprime al enemigo cada cierto tiempo (crea efecto de movimiento).
+    this.gameTimer = setInterval(this.animateEnemy, 500);
+}
+
+
 var game = new Game(20);
-game.generateTableHtml(game.size);
-console.log(game);
-game.printPathLevel1();
-console.log(game.level1());
-game.enemy.moveEnemy();
-console.log(game.enemy);
-// game.enemy.moveEnemy();
-// console.log(game.enemy);
+ game.generateTableHtml(game.size);
+// console.log(game);
+ game.printPathLevel1();
+
+
 

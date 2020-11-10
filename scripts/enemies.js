@@ -5,8 +5,13 @@ function Enemy(size) {
 
     // Imprime el enemigo en su posición actual.
     this.printEnemy = function() {  
+        // Avisa al juego que ha llegado al final de la partida.
+        if (this.x < size) {
         let cell = document.querySelector(`tr.row${this.y} > td.cell${this.x}`);
+        console.log(cell);
         cell.classList.add('enemy');
+        }
+        // console.log(this.x);
     }
 
     // Mueve la posición del enemigo.
@@ -26,6 +31,8 @@ function Enemy(size) {
         }
         // Condición fin de juego.
         if (this.x === size) {
+            clearInterval(game.gameTimer);
+            // this.x = 0;
             alert ("GAME OVER");
             return;
         }    
