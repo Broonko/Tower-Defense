@@ -3,7 +3,7 @@ function Game(size) {
     this.size = size,
     this.animateTimer,
     this.moveTimer,
-    // this.enemy = new Enemy(this.size),
+    this.health = 3,
     this.enemies = [],
     this.storage = [],
 
@@ -53,7 +53,8 @@ function Game(size) {
     // Mueve e imprime los enemigos.
     this.animateEnemies = function() {
         if (self.enemies.length > 0) {
-            if (self.enemies[0].x === self.size) {
+            self.looseHealth();
+            if (self.health === 0) {
                 self.gameOver();
             }
             self.enemies.forEach(enemy => {
@@ -96,8 +97,16 @@ function Game(size) {
     this.startLevel = function () {
 
         this.storeEnemies();
-        this.moveTimer = setInterval(this.addEnemiesToMap, 1000);
-        this.animateTimer = setInterval(this.animateEnemies, 500);
+        this.moveTimer = setInterval(this.addEnemiesToMap, 800);
+        this.animateTimer = setInterval(this.animateEnemies, 300);
+    }
+
+    // Quita salud al jugador.
+    this.looseHealth = function() {
+        if (self.enemies[0].x === self.size) {
+            self.health--;
+            self.enemies.shift();
+        }
     }
 }
 
