@@ -1,5 +1,6 @@
 function Game(size) {
     this.size = size,
+    this.enemy = new Enemy(this.size),
 
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function(size) { 
@@ -33,8 +34,16 @@ function Game(size) {
         return map;
     }
 }
+// console.log(myEnemy);
+
+// var myEnemy = new Enemy(20);
 var game = new Game(20);
 game.generateTableHtml(game.size);
 console.log(game);
 game.printPathLevel1();
 console.log(game.level1());
+game.enemy.moveEnemy();
+console.log(game.enemy);
+// game.enemy.moveEnemy();
+// console.log(game.enemy);
+

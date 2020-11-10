@@ -17,3 +17,7 @@ td {
 .path {
     background-color: burlywood;
 }
+
+.enemy {
+    background-color: red;
+}
