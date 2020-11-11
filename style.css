@@ -18,6 +18,8 @@ td {
     width: 20px;
     height: 20px;
     border: 1px solid black;
+    position: relative;
+    padding: 0;
 }
 
 .path {
@@ -40,4 +42,13 @@ td {
     top: 40px;
     right: 40px;
     text-align: center;
+}
+
+.projectile {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: yellow;
+    top: 6px;
+    left: 6px;
 }

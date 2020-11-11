@@ -16,7 +16,7 @@ function Enemy(size) {
 
     // Mueve la posición del enemigo.
     this.moveRight = function() {
-        let previousX = this.x;    
+        let previousX = this.x;
         this.x++;
 
         // Borra el enemigo de la posición anterior sólo si está dentro del tablero.
