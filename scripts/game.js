@@ -3,7 +3,7 @@ function Game(size) {
     this.size = size;
     this.animateTimer;
     this.moveTimer;
-
+    this.projectileTimer;
     this.health = 3;
     this.towers = [];
     this.map;
@@ -46,12 +46,9 @@ function Game(size) {
     };
 
     // Añade torres.
-    this.addTowers = function(cell) {
+    this.addTowers = function(cell, y, x) {
         cell.classList.add("towers");
         this.towers.push(new Tower());
-    };
-
-    this.updateTowerCoordinates = function(y, x) {
         this.towers[this.towers.length - 1].y = y;
         this.towers[this.towers.length - 1].x = x;
     };
@@ -63,10 +60,12 @@ function Game(size) {
                 if (cell === 0) {
                     let cellHtml = document.querySelector(`tr.row${r} > td.cell${c}`)
                     cellHtml.onclick = function() {
-                        self.addTowers(cellHtml);
-                        self.updateTowerCoordinates(r, c);
-                        // self.projectileTimer(animateProjectiles, 50, r, c, self.towers[self.towers.length-1]);
-                        self.printProjectile(r, c);
+                        self.addTowers(cellHtml, r, c);
+                        //let projectile = document.createElement('div');
+                        // let projectilee = new Projectile();
+                        // self.printProjectile(y, x);
+                        // self.projectileTimer = setInterval(self.animateProjectiles, 300, r, c, projectilee); //, self.towers[self.towers.length-1]
+                        // self.printProjectile(r, c);
                         // self.moveProjectile();
                     }
                 }
@@ -74,25 +73,27 @@ function Game(size) {
         });
     };
 
-    //this.animateProjectiles = function(y, x, currentTower) {
-        // self.printProjectile(y, x);
-        // currentTower.addProjectiles();
-        // self.moveProjectile();
+    // this.animateProjectiles = function(y, x, projectile, currentTower) {
+    //     // currentTower.addProjectiles();
+    //     self.moveProjectile(projectile);
     // }
 
-    this.printProjectile = function(y, x) {
-        let projectile = document.createElement('div');
-        let cell = document.querySelector(`tr.row${y} > td.cell${x}`);
-        projectile.classList.add('projectile');
-        cell.appendChild(projectile);
-    }
+    // this.printProjectile = function(y, x) {
+    //     let cell = document.querySelector(`tr.row${y} > td.cell${x}`);
+    //     projectile.classList.add('projectile');
+    //     cell.appendChild(projectile);
+    // }
 
-    this.moveProjectile = function() {
+    // this.moveProjectile = function(projectile) {
+    //     console.log(projectile)
+    //     projectile.moveDown();
+    //     projectile.projectileHtml.style.top = projectile.top + 'px';
+    //     console.log(projectile)
         // let projectilesArray = self.towers[self.towers.length-1].projectiles;
         // for (let i = 0; i < projectilesArray.length; i++) {
         //     projectilesArray[i].moveDown();
         // }
-    }
+    //}
 
     // Fin de partida.
     this.gameOver = function() {
@@ -106,6 +107,8 @@ function Game(size) {
     this.animateEnemies = function() {
         if (self.enemies.length > 0) {
             if (self.enemies[0].x === self.size) {
+                delete self.enemies[0];
+                console.log(self.enemies)
                 self.enemies.shift();
                 self.looseHealth();
                 self.updateHealthDisplay();
@@ -158,6 +161,19 @@ function Game(size) {
         healthDisplay.innerText = `HEALTH: ${self.health}`;
     };
 
+    this.animateTowers = function() {
+        if (self.towers.length > 0) {
+            for (let i = 0; i < self.towers.length; i++) {
+                self.towers[i].calculateEnemiesDistance();
+            }
+        }
+    }
+
+    this.animateGame = function() {
+        self.animateEnemies();
+        self.animateTowers();
+    }
+
     // Inicia el juego.
     this.startLevel = function () {
         this.generateTableHtml(game.size);
@@ -167,7 +183,7 @@ function Game(size) {
         this.addClickEvent();
         this.displayHealth();
         this.moveTimer = setInterval(this.addEnemiesToMap, 600);
-        this.animateTimer = setInterval(this.animateEnemies, 350);
+        this.animateTimer = setInterval(this.animateGame, 350);
     };
 }
 

@@ -1,11 +1,11 @@
 function Projectile() {
 //   this.x;
 //   this.y;
-  this.projectile = document
+  this.projectileHtml = document.querySelector('.projectile');
   this.speed = 200;
-  this.top;
+  this.top = 6;
 
   this.moveDown = function() {
-    this.top += 5;
+    this.top += 20;
   }
 }
