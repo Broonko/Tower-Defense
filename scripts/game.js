@@ -47,7 +47,7 @@ function Game(size) {
 
     // Genera los enemigos y los guarda en un array(storage).
     this.storeEnemies = function () {
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 6; i++) {
             this.storage.push(new Enemy(this.size));
         }
     };

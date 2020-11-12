@@ -45,11 +45,11 @@ function Tower() {
         let projectile = new Projectile();
         projectile.printProjectile(this.y, this.x);
         //console.log(projectile.projectileHtml);
-        this.projectileTimer = setInterval(projectile.moveProjectile, 245, projectile, enemies, this.x, this.y);        
+        this.projectileTimer = setInterval(projectile.moveProjectile, 245, projectile, enemies, enemyToShoot, this.x, this.y);        
         this.killEnemy(enemies, enemyToShoot);
     }
 
-    // Mata al enemigo y lo hace desaparecer del mapa.
+    /* Mata al enemigo y lo hace desaparecer del mapa.
     this.killEnemy = function(enemies, enemyTokill) {
         let enemyX = enemies[enemyTokill].x;
         let enemyY = enemies[enemyTokill].y;
@@ -58,5 +58,5 @@ function Tower() {
         delete enemies[enemyTokill];
         enemies.splice(enemyTokill, 1);
         console.log(enemies);
-    }
+    }*/
 }
