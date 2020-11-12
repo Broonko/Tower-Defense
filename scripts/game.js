@@ -82,6 +82,14 @@ function Game(size) {
         }
     };
 
+    this.deleteEnemy = function(position) {
+        let enemy = document.querySelector(`tr.row${this.enemies[position].y} > td.cell${this.enemies[position].x}`);
+        enemy.classList.remove('enemy');
+        delete this.enemies[position];
+        this.enemies.splice(position, 1);
+        //console.log(enemies);
+    };
+
     // Añade onclick en las celdas del mapa.
     this.addClickEvent = function () {
         this.map.forEach((row, r) => {
@@ -184,8 +192,8 @@ function Game(size) {
         this.storeEnemies();
         this.addClickEvent();
         this.displayHealth();
-        this.moveTimer = setInterval(this.addEnemiesToMap, 4000);
-        this.animateTimer = setInterval(this.animateGame, 2000);
+        this.moveTimer = setInterval(this.addEnemiesToMap, 1000);
+        this.animateTimer = setInterval(this.animateGame, 350);
     };
 }
 

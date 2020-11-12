@@ -23,7 +23,7 @@ function Tower() {
 
     // Si hay un enemigo en rango, la torre dispara.
     this.checkIfEnemiesInRange = function(enemies) {
-        Array.min = function( array ){
+        Array.min = function( array ){                      //INDEXOFF
             return Math.min.apply( Math, array );
         };
         let minDistance = Array.min(this.distanceToAllEnemies);
@@ -42,15 +42,17 @@ function Tower() {
 
     // Dispara el proyectil.
     this.shootProyectile = function(enemies, enemyToShoot) {
-        let projectile = new Projectile();
-        projectile.printProjectile(this.y, this.x);
+        let projectile = new Projectile(this.x, this.y);
+        projectile.printProjectile();
+        projectile.moveProjectile(enemies[enemyToShoot], enemyToShoot);
         //console.log(projectile.projectileHtml);
-        this.projectileTimer = setInterval(projectile.moveProjectile, 245, projectile, enemies, enemyToShoot, this.x, this.y);        
-        this.killEnemy(enemies, enemyToShoot);
+        //his.projectileTimer = setInterval(projectile.moveProjectile, 245, projectile, enemies, enemyToShoot, this.x, this.y); 
+        // setInterval(projectile.moveProjectile, 245, enemies[enemyToShoot].)       
+        //this.killEnemy(enemies, enemyToShoot);
     }
 
-    /* Mata al enemigo y lo hace desaparecer del mapa.
-    this.killEnemy = function(enemies, enemyTokill) {
+    //Mata al enemigo y lo hace desaparecer del mapa.
+    /*this.killEnemy = function(enemies, enemyTokill) {
         let enemyX = enemies[enemyTokill].x;
         let enemyY = enemies[enemyTokill].y;
         let enemy = document.querySelector(`tr.row${enemyY} > td.cell${enemyX}`);
