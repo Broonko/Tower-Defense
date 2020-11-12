@@ -4,6 +4,7 @@ function Tower() {
     this.range = 4;
     this.projectiles = [];
     this.distanceToAllEnemies = [];
+    this.projectileTimer;
 
     this.addProjectiles = function() {
         this.projectiles.push(new Projectile());
@@ -41,6 +42,10 @@ function Tower() {
 
     // Dispara el proyectil.
     this.shootProyectile = function(enemies, enemyToShoot) {
+        let projectile = new Projectile();
+        projectile.printProjectile(this.y, this.x);
+        //console.log(projectile.projectileHtml);
+        this.projectileTimer = setInterval(projectile.moveProjectile, 245, projectile, enemies, this.x, this.y);        
         this.killEnemy(enemies, enemyToShoot);
     }
 

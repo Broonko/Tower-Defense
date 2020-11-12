@@ -47,7 +47,7 @@ function Game(size) {
 
     // Genera los enemigos y los guarda en un array(storage).
     this.storeEnemies = function () {
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 2; i++) {
             this.storage.push(new Enemy(this.size));
         }
     };
@@ -184,8 +184,8 @@ function Game(size) {
         this.storeEnemies();
         this.addClickEvent();
         this.displayHealth();
-        this.moveTimer = setInterval(this.addEnemiesToMap, 600);
-        this.animateTimer = setInterval(this.animateGame, 350);
+        this.moveTimer = setInterval(this.addEnemiesToMap, 4000);
+        this.animateTimer = setInterval(this.animateGame, 2000);
     };
 }
 
