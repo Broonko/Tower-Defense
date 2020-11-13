@@ -9,6 +9,10 @@ function Game(size) {
     this.map;
     this.enemies = [];
     this.storage = [];
+    this.towerBuilt = new Audio('sounds/tower.mp3');
+    this.enemyKilled = new Audio('sounds/enemyDeath.mp3');
+    this.backgroundMusic = new Audio('sounds/backgroundMusic.mp3');
+    this.startMusic = new Audio('sounds/elevation.mp3');
 
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function (size) {
@@ -86,6 +90,8 @@ function Game(size) {
             enemy.classList.remove('enemy');
             delete this.enemies[position];
             this.enemies.splice(position, 1);
+            this.enemyKilled.play();
+            this.enemyKilled.volume = 0.2;
         }
         console.log(this.enemies);
     };
@@ -97,6 +103,8 @@ function Game(size) {
                 if (cell === 0) {
                     let cellHtml = document.querySelector(`tr.row${r} > td.cell${c}`)
                     cellHtml.onclick = function () {
+                        self.towerBuilt.play();
+                        self.towerBuilt.volume = 0.1;
                         self.addTowers(cellHtml, r, c);
                     }
                 }
@@ -180,7 +188,15 @@ function Game(size) {
 
     this.startLevel = function () {
         let startButton = document.getElementById('startButton');
+        let start = document.getElementById('start');
+        this.startMusic.play();
+        this.startMusic.volume = 0.;
         startButton.onclick = function() {
+            this.startMusic.pause();
+            this.backgroundMusic.loop = true;
+            this.backgroundMusic.play();
+            this.backgroundMusic.volume = 0.5;
+            startButton.setAttribute('z-index', '0');
             this.generateTableHtml(game.size);
             this.map = this.level1();
             this.printPathLevel1();
@@ -192,6 +208,15 @@ function Game(size) {
         }.bind(this);
     };
     this.startLevel();
+    
+    // window.onload = function () {
+        
+    //     }
 }
+
+
 var game = new Game(20);
 // console.log(game);
+
+
+

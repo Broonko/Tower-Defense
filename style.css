@@ -47,6 +47,7 @@ td {
 .heart {
     background-size: contain;
     background-image: url(images/corazon.png);
+    
 }
 
 .projectile {
@@ -61,10 +62,43 @@ td {
 #start {
     display: inline-block;
     position: absolute;
-    left: 370px;
-    top: 10px;
+    left: 340px;
+    bottom: 100px;
+    z-index: 1;
 }
 
 #startButton {
-    width: 60px;
+    width: 120px;
+    height: 50px;
+    color: red;
+    background-color: whitesmoke;
+    font-size: 20px;
+    font-weight: bolder;
+    border-radius: 10px;
+    
 }
+
+#start:hover {
+    box-shadow: 10px 5px 5px tomato;
+}
+
+#startScreen {
+    border: 1px solid black;
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-image: url(images/startImage.png);
+    background-size: contain;  
+}
+
+footer {
+    color: red;
+    z-index: 2;
+    position: absolute;
+    bottom : 0;
+    left: 32%;
+}
+
+
