@@ -69,9 +69,7 @@ function Game(size) {
                 self.updateHealthDisplay();
             }
             // Si lo hacemos con else if, funsciona siempre y cuando haya un espacio entre todos los enemigos.
-            if (self.health === 0) {
-                self.gameOver();
-            }
+           
             self.enemies.forEach(enemy => {
                 if (self.map[enemy.y][enemy.x] === 2 || enemy.x === -1) {
                     enemy.moveRight();
@@ -83,11 +81,13 @@ function Game(size) {
     };
 
     this.deleteEnemy = function(position) {
-        let enemy = document.querySelector(`tr.row${this.enemies[position].y} > td.cell${this.enemies[position].x}`);
-        enemy.classList.remove('enemy');
-        delete this.enemies[position];
-        this.enemies.splice(position, 1);
-        //console.log(enemies);
+        if (this.enemies.length > 0) {
+            let enemy = document.querySelector(`tr.row${this.enemies[position].y} > td.cell${this.enemies[position].x}`);
+            enemy.classList.remove('enemy');
+            delete this.enemies[position];
+            this.enemies.splice(position, 1);
+        }
+        console.log(this.enemies);
     };
 
     // Añade onclick en las celdas del mapa.
@@ -98,12 +98,6 @@ function Game(size) {
                     let cellHtml = document.querySelector(`tr.row${r} > td.cell${c}`)
                     cellHtml.onclick = function () {
                         self.addTowers(cellHtml, r, c);
-                        //let projectile = document.createElement('div');
-                        // let projectilee = new Projectile();
-                        // self.printProjectile(y, x);
-                        // self.projectileTimer = setInterval(self.animateProjectiles, 300, r, c, projectilee); //, self.towers[self.towers.length-1]
-                        // self.printProjectile(r, c);
-                        // self.moveProjectile();
                     }
                 }
             });
@@ -128,28 +122,6 @@ function Game(size) {
         }
     }
 
-    // this.animateProjectiles = function(y, x, projectile, currentTower) {
-    //     // currentTower.addProjectiles();
-    //     self.moveProjectile(projectile);
-    // }
-
-    // this.printProjectile = function(y, x) {
-    //     let cell = document.querySelector(`tr.row${y} > td.cell${x}`);
-    //     projectile.classList.add('projectile');
-    //     cell.appendChild(projectile);
-    // }
-
-    // this.moveProjectile = function(projectile) {
-    //     console.log(projectile)
-    //     projectile.moveDown();
-    //     projectile.projectileHtml.style.top = projectile.top + 'px';
-    //     console.log(projectile)
-    // let projectilesArray = self.towers[self.towers.length-1].projectiles;
-    // for (let i = 0; i < projectilesArray.length; i++) {
-    //     projectilesArray[i].moveDown();
-    // }
-    //}
-
     // Quita salud al jugador.
     this.looseHealth = function () {
         self.health--;
@@ -159,15 +131,19 @@ function Game(size) {
     this.displayHealth = function () {
         let canvas = document.getElementById('canvas');
         let healthDisplay = document.createElement('section');
-        healthDisplay.innerText = `HEALTH: ${self.health}`;
+        let healthImage = document.createElement('div');
         healthDisplay.classList.add('healthDisplay');
         canvas.appendChild(healthDisplay);
+        healthDisplay.innerText = `${self.health}`;
+        healthImage.classList.add('heart');
+        healthDisplay.appendChild(healthImage);
+        console.log(healthImage);
     };
 
     // Actualiza la vida del jugador.
     this.updateHealthDisplay = function () {
         let healthDisplay = document.getElementsByClassName('healthDisplay')[0];
-        healthDisplay.innerText = `HEALTH: ${self.health}`;
+        healthDisplay.innerText = `${self.health}`;
     };
 
     // Fin de partida.
@@ -178,25 +154,44 @@ function Game(size) {
         alert("GAME OVER");
     };
 
-    // Anima el juego.
-    this.animateGame = function () {
-        self.animateEnemies();
-        self.animateTowers();
+    this.win = function () {
+        
+        clearInterval(this.moveTimer);
+        clearInterval(this.animateTimer);
+        alert("CONGRATULATIONS YOU WIN");
     }
 
-    // Inicia el juego.
-    this.startLevel = function () {
-        this.generateTableHtml(game.size);
-        this.map = this.level1();
-        this.printPathLevel1();
-        this.storeEnemies();
-        this.addClickEvent();
-        this.displayHealth();
-        this.moveTimer = setInterval(this.addEnemiesToMap, 1000);
-        this.animateTimer = setInterval(this.animateGame, 350);
-    };
-}
+    // Anima el juego.
+    this.animateGame = function () {
+        if (this.health === 0) {
+            this.gameOver();
+        }
+        if (this.storage.length === 0 &&
+            this.enemies.length === 0 &&
+            this.health > 0) {
+                this.win();
+        }
+        this.animateEnemies();
+        this.animateTowers();   
+    }.bind(this);
 
+    // Inicia el juego.
+    
+
+    this.startLevel = function () {
+        let startButton = document.getElementById('startButton');
+        startButton.onclick = function() {
+            this.generateTableHtml(game.size);
+            this.map = this.level1();
+            this.printPathLevel1();
+            this.storeEnemies();
+            this.addClickEvent();
+            this.displayHealth();
+            this.moveTimer = setInterval(this.addEnemiesToMap, 1000);
+            this.animateTimer = setInterval(this.animateGame, 350);
+        }.bind(this);
+    };
+    this.startLevel();
+}
 var game = new Game(20);
-console.log(game);
-game.startLevel();
+// console.log(game);

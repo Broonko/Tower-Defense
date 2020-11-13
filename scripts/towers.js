@@ -2,13 +2,9 @@ function Tower() {
     this.x;
     this.y;
     this.range = 4;
-    this.projectiles = [];
+    this.projectiles = [];  //QUITAR
     this.distanceToAllEnemies = [];
     this.projectileTimer;
-
-    this.addProjectiles = function() {
-        this.projectiles.push(new Projectile());
-    }
 
     // Calcula la distancia de cada torre a todos los enemigos.
     this.calculateEnemiesDistance = function(enemies) {
@@ -23,18 +19,11 @@ function Tower() {
 
     // Si hay un enemigo en rango, la torre dispara.
     this.checkIfEnemiesInRange = function(enemies) {
-        Array.min = function( array ){                      //INDEXOFF
+        Array.min = function( array ){                      
             return Math.min.apply( Math, array );
         };
         let minDistance = Array.min(this.distanceToAllEnemies);
-        for (let i = 0; i < this.distanceToAllEnemies.length; i++) {
-            if (this.distanceToAllEnemies[i] === minDistance) {
-                var enemyToShoot = i;
-            }
-        }
-        // this.distanceToAllEnemies.sort(function(a, b) {
-        //     return a - b
-        // });
+        let enemyToShoot = this.distanceToAllEnemies.indexOf (minDistance);
         if (minDistance < this.range) {
             this.shootProyectile(enemies, enemyToShoot);
         }
@@ -43,22 +32,8 @@ function Tower() {
     // Dispara el proyectil.
     this.shootProyectile = function(enemies, enemyToShoot) {
         let projectile = new Projectile(this.x, this.y);
+        // this.projectiles.push(projectile);
         projectile.printProjectile();
         projectile.moveProjectile(enemies[enemyToShoot], enemyToShoot);
-        //console.log(projectile.projectileHtml);
-        //his.projectileTimer = setInterval(projectile.moveProjectile, 245, projectile, enemies, enemyToShoot, this.x, this.y); 
-        // setInterval(projectile.moveProjectile, 245, enemies[enemyToShoot].)       
-        //this.killEnemy(enemies, enemyToShoot);
     }
-
-    //Mata al enemigo y lo hace desaparecer del mapa.
-    /*this.killEnemy = function(enemies, enemyTokill) {
-        let enemyX = enemies[enemyTokill].x;
-        let enemyY = enemies[enemyTokill].y;
-        let enemy = document.querySelector(`tr.row${enemyY} > td.cell${enemyX}`);
-        enemy.classList.remove('enemy');
-        delete enemies[enemyTokill];
-        enemies.splice(enemyTokill, 1);
-        console.log(enemies);
-    }*/
 }

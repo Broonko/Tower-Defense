@@ -44,6 +44,11 @@ td {
     text-align: center;
 }
 
+.heart {
+    background-size: contain;
+    background-image: url(images/corazon.png);
+}
+
 .projectile {
     position: absolute;
     width: 8px;
@@ -51,4 +56,15 @@ td {
     background-color: yellow;
     top: 6px;
     left: 6px;
+}
+
+#start {
+    display: inline-block;
+    position: absolute;
+    left: 370px;
+    top: 10px;
+}
+
+#startButton {
+    width: 60px;
 }
