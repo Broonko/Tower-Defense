@@ -4,7 +4,7 @@ function Game(size) {
     this.animateTimer;
     this.moveTimer;
     this.projectileTimer;
-    this.health = 2;
+    this.health = 3;
     this.towers = [];
     this.map;
     this.enemies = [];
@@ -12,7 +12,7 @@ function Game(size) {
     this.towerBuilt = new Audio('sounds/tower.mp3');
     this.enemyKilled = new Audio('sounds/enemyDeath.mp3');
     this.backgroundMusic = new Audio('sounds/backgroundMusic.mp3');
-    this.startMusic = new Audio('sounds/elevation.mp3');
+    // this.startMusic = new Audio('sounds/elevation.mp3');
 
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function (size) {
@@ -51,7 +51,7 @@ function Game(size) {
 
     // Genera los enemigos y los guarda en un array(storage).
     this.storeEnemies = function () {
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 15; i++) {
             this.storage.push(new Enemy(this.size));
         }
     };
@@ -136,22 +136,21 @@ function Game(size) {
     };
 
     // Muestra la salud del jugador.
-    this.displayHealth = function () {
-        let canvas = document.getElementById('canvas');
-        let healthDisplay = document.createElement('section');
-        let healthImage = document.createElement('div');
-        healthDisplay.classList.add('healthDisplay');
-        canvas.appendChild(healthDisplay);
-        healthDisplay.innerText = `${self.health}`;
-        healthImage.classList.add('heart');
-        healthDisplay.appendChild(healthImage);
-        console.log(healthImage);
-    };
+    // this.displayHealth = function () {
+    //     let canvas = document.getElementById('canvas');
+    //     let healthDisplay = document.createElement('section');
+    //     let healthImage = document.createElement('div');
+    //     healthDisplay.classList.add('healthDisplay');
+    //     canvas.appendChild(healthDisplay);
+    //     healthDisplay.innerText = `${self.health}`;
+    //     healthImage.classList.add('heart');
+    //     healthDisplay.appendChild(healthImage);
+    // };
 
     // Actualiza la vida del jugador.
     this.updateHealthDisplay = function () {
-        let healthDisplay = document.getElementsByClassName('healthDisplay')[0];
-        healthDisplay.innerText = `${self.health}`;
+        let health = document.getElementById('health');
+        health.innerText = `${self.health}`;
     };
 
     // Fin de partida.
@@ -163,7 +162,6 @@ function Game(size) {
     };
 
     this.win = function () {
-        
         clearInterval(this.moveTimer);
         clearInterval(this.animateTimer);
         alert("CONGRATULATIONS YOU WIN");
@@ -184,34 +182,34 @@ function Game(size) {
     }.bind(this);
 
     // Inicia el juego.
-    
-
     this.startLevel = function () {
         let startButton = document.getElementById('startButton');
-        let start = document.getElementById('start');
-        this.startMusic.play();
-        this.startMusic.volume = 0.;
+        // let canvas = document.getElementById('canvas');
+        // canvas.onclick = function() {
+        //     this.startMusic.loop = true;
+        //     this.startMusic.volume = 0.2;
+        //     this.startMusic.play();
+        // }.bind(this);
         startButton.onclick = function() {
-            this.startMusic.pause();
+            // this.startMusic.pause();
+            document.getElementById('start').style.display = 'none';
+            document.getElementsByTagName('h1')[0].style.display = 'none';
+            document.getElementById('health').style.zIndex = '1';
+            document.getElementById('heart').style.zIndex = '1';
             this.backgroundMusic.loop = true;
+            this.backgroundMusic.volume = 0.2;
             this.backgroundMusic.play();
-            this.backgroundMusic.volume = 0.5;
-            startButton.setAttribute('z-index', '0');
             this.generateTableHtml(game.size);
             this.map = this.level1();
             this.printPathLevel1();
             this.storeEnemies();
             this.addClickEvent();
-            this.displayHealth();
+            // this.displayHealth();
             this.moveTimer = setInterval(this.addEnemiesToMap, 1000);
             this.animateTimer = setInterval(this.animateGame, 350);
         }.bind(this);
     };
     this.startLevel();
-    
-    // window.onload = function () {
-        
-    //     }
 }
 
 

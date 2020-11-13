@@ -31,23 +31,23 @@ function Projectile(towerX, towerY) {
     if (this.towerX > enemy.x) incX = -incX;
     if (this.towerY > enemy.y) incY = -incY;
     //console.log(incX)
-    this.timerId = setInterval(this.moveProjectile2.bind(this), 43, incX, incY, distanceToEnemy, position);
+    this.timerId = setInterval(this.moveProjectile2.bind(this), 40, incX, incY, distanceToEnemy, position);
   };
 
   this.moveProjectile2 = function (incX, incY, distanceToEnemy, position) {
     //console.log(incX);
     this.top += incY * 20;
     this.left += incX * 20;
-    // console.log("esto es el inc de x: " + incX);
-    // console.log("esto es el inc de y: " + incY);
+    console.log("esto es el inc de x: " + incX);
+    console.log("esto es el inc de y: " + incY);
 
     this.projectileHtml.style.top = this.top + "px";
     this.projectileHtml.style.left = this.left + "px";
     this.distanceDone += Math.sqrt((incX ** 2) + (incY ** 2));
-    // console.log("esto es distanceDone: " + this.distanceDone);
+    console.log("esto es distanceDone: " + this.distanceDone);
     if (this.distanceDone >= distanceToEnemy  || this.distanceDone > 4) {
-      // console.log("distanceToEnemy vale: " + distanceToEnemy);
-      // console.log("this.distanceDone vale: " + this.distanceDone);
+      console.log("distanceToEnemy vale: " + distanceToEnemy);
+      console.log("this.distanceDone vale: " + this.distanceDone);
       game.deleteEnemy(position);
       console.log(this)
       delete this;
