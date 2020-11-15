@@ -1,9 +1,28 @@
+body {
+    position: relative;
+}
+
+#wellcome {
+    font-family: 'Goldman', cursive;
+    line-height: 800px;
+    text-align: center;
+    font-size: 60px;
+    position: relative;
+    width: 1000px;
+    height: 800px;
+    background-color: white;
+    z-index: 2;
+}
+
 #canvas {
     position: relative;
     width: 1000px;
     height: 800px;
     border: 1px solid black;
     background-color: black;
+    top: 0;
+    left: 0;
+    display: none;
 }
 
 table {
@@ -33,7 +52,7 @@ td:hover {
 }
 
 .enemy {
-    background-image: url(images/virus16.png);
+    background-image: url(images/virus.png);
 }
 
 .towers {
@@ -144,8 +163,6 @@ footer {
     top: 200px;
     left: 200px;
     z-index: -1;
-    /* background-image: url(images/gameover.png); */
-    /* background-size: contain; */
 }
 
 #victory {
@@ -163,8 +180,18 @@ footer {
     top: 200px;
     left: 200px;
     z-index: -1;
-    /* background-image: url(images/gameover.png); */
-    /* background-size: contain; */
+}
+
+#server {
+    background-image: url(/images/server.png);
+    width: 100px;
+    height: 100px;
+    background-size: contain;
+    position: absolute;
+    background-repeat: no-repeat;
+    left: 672px;
+    top: 430px;
+    z-index: -1;
 }
 
 /* .zeroSoft {

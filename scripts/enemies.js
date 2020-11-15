@@ -2,7 +2,7 @@ function Enemy(size) {
     // Coordenadas iniciales del enemigo.
     this.x = -1,
     this.y = 10,
-    //this.health = 100;
+    this.health = 6;
 
     // Imprime el enemigo en su posición actual.
     this.printEnemy = function () {
@@ -10,10 +10,10 @@ function Enemy(size) {
         if (this.x < size) {
             let cell = document.querySelector(`tr.row${this.y} > td.cell${this.x}`);
             cell.classList.add('enemy');
-        }
-    }
+        };
+    };
 
-    // Mueve la posición del enemigo.
+    // Mueve al enemigo a la derecha.
     this.moveRight = function () {
         let previousX = this.x;
         this.x++;
@@ -22,9 +22,10 @@ function Enemy(size) {
         if (previousX > -1) {
             let cell = document.querySelector(`tr.row${this.y} > td.cell${previousX}`);
             cell.classList.remove('enemy');
-        }
-    }
+        };
+    };
 
+    // Mueve al enemigo arriba.
     this.moveUp = function () {
         let previousY = this.y;
         this.y--;
@@ -33,9 +34,10 @@ function Enemy(size) {
         if (previousY > -1) {
             let cell = document.querySelector(`tr.row${previousY} > td.cell${this.x}`);
             cell.classList.remove('enemy');
-        }
-    }
+        };
+    };
 
+    // Mueve al enemigo abajo.
     this.moveDown = function () {
         let previousY = this.y;
         this.y++;
@@ -44,9 +46,10 @@ function Enemy(size) {
         if (previousY > -1) {
             let cell = document.querySelector(`tr.row${previousY} > td.cell${this.x}`);
             cell.classList.remove('enemy');
-        }
-    }
+        };
+    };
 
+    // Mueve al enemigo a la izquierda.
     this.moveLeft = function () {
         let previousX = this.x;
         this.x--;
@@ -55,6 +58,6 @@ function Enemy(size) {
         if (previousX > -1) {
             let cell = document.querySelector(`tr.row${this.y} > td.cell${previousX}`);
             cell.classList.remove('enemy');
-        }
-    }
-}
+        };
+    };
+};

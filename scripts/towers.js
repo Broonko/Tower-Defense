@@ -2,7 +2,6 @@ function Tower() {
     this.x;
     this.y;
     this.range = 4;
-    this.projectiles = [];  //QUITAR
     this.distanceToAllEnemies = [];
     this.projectileTimer;
     this.sounds = new Sound();
@@ -16,7 +15,7 @@ function Tower() {
             let distanceEnemy = Math.sqrt((xIncrement**2) + (yIncrement**2));
             this.distanceToAllEnemies.push(distanceEnemy);
         });
-    }
+    };
 
     // Si hay un enemigo en rango, la torre dispara.
     this.checkIfEnemiesInRange = function(enemies) {
@@ -27,15 +26,14 @@ function Tower() {
         let enemyToShoot = this.distanceToAllEnemies.indexOf (minDistance);
         if (minDistance < this.range) {
             this.shootProyectile(enemies, enemyToShoot);
-        }
-    }
+        };
+    };
 
     // Dispara el proyectil.
     this.shootProyectile = function(enemies, enemyToShoot) {
         let projectile = new Projectile(this.x, this.y);
-        // this.projectiles.push(projectile);
         projectile.printProjectile();
-        projectile.moveProjectile(enemies[enemyToShoot], enemyToShoot);
+        projectile.calcProjectileDir(enemies[enemyToShoot], enemyToShoot);
         this.sounds.shootSound.play();
     };
-}
+};
