@@ -2,8 +2,8 @@ function Projectile(towerX, towerY) {
   this.projectileHtml;
   this.towerX = towerX;
   this.towerY = towerY;
-  this.top = 18;
-  this.left = 18;
+  this.top = 4;
+  this.left = 4;
   this.timerId;
   this.distanceDone = 0;
   this.damage = 1;

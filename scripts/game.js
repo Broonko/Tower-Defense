@@ -1,5 +1,4 @@
 function Game(size) {
-    self = this;
     this.size = size;
     this.animateTimer;
     this.moveTimer;
@@ -10,6 +9,15 @@ function Game(size) {
     this.enemies = [];
     this.storage = [];
     this.sounds = new Sound();
+    this.enemiesInLvl;
+    this.enemiesInLvlHtml = document.getElementById('enemiesLeft');
+    this.towersLeft;
+    this.towersLeftHtml = document.getElementById('towersLeft');
+    this.maxTowers;
+    this.lvl;
+    this.lvlHtml = document.getElementById('lvl');
+    // this.table;
+
 
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function (size) {
@@ -59,7 +67,7 @@ function Game(size) {
 
     // Genera el camino en la fila indicada en HTML.
     this.printPathLevel1 = function () {
-        var level1Path = document.getElementsByClassName("row10")[0];
+        var level1Path = document.getElementsByClassName("row7")[0];
         level1Path.classList.add("path");
         // for (let i = 0; i < level1Path.length; i++) {
         //     level1Path[i].classList.remove("zeroSoft");
@@ -72,7 +80,12 @@ function Game(size) {
     // Sustituye los 0 de la fila indicada por 2.
     this.level1 = function () {
         let field = this.generateTable(this.size);
-        field.splice(10, 1, Array(this.size).fill(2));
+        field.splice(7, 1, Array(this.size).fill(2));
+        this.towersLeft = 2;
+        this.maxTowers = this.towersLeft;
+        this.lvl = 1;
+        this.lvlHtml.innerText = `Level: ${this.lvl}`;
+        this.lvlHtml.style.display = 'inline-block';
         return field;
     };
 
@@ -109,7 +122,7 @@ function Game(size) {
         };
     }.bind(this);
 
-    // Elimina a los enemigos.
+    // Elimina a los enemigos y actualiza el diplay de enemigos restantes.
     this.deleteEnemy = function (position) {
         if (this.enemies.length > 0) {
             let enemy = document.querySelector(`tr.row${this.enemies[position].y} > td.cell${this.enemies[position].x}`);
@@ -117,6 +130,7 @@ function Game(size) {
             delete this.enemies[position];
             this.enemies.splice(position, 1);
             this.sounds.enemyKilled.play();
+            this.enemiesInLvlHtml.innerText = `Enemies Left: ${this.storage.length + this.enemies.length}/${this.enemiesInLvl}`;
         };
     };
 
@@ -134,7 +148,7 @@ function Game(size) {
         });
     };
 
-    // Añade torres.
+    // Añade torres y actualiza el display de torres restantes.
     this.addTowers = function (cell, y, x) {
         if (this.towers.length < 2) {
             cell.classList.add("towers");
@@ -142,7 +156,16 @@ function Game(size) {
             this.towers[this.towers.length - 1].y = y;
             this.towers[this.towers.length - 1].x = x;
             this.sounds.towerBuilt.play();
+            this.towersLeft--;
+            this.towersLeftHtml.innerText = `Towers Left: ${this.towersLeft}/${this.maxTowers}`
         };
+    };
+
+    this.deleteTowers = function() {
+        for (let i = 0; i < this.towers.length; i++) {
+            delete this.towers[i];
+        }
+        this.towers = [];
     };
 
     // Anima las torres.
@@ -174,8 +197,6 @@ function Game(size) {
         for (let i = 0; i < this.enemies.length; i++) {
             delete this.enemies[i];
         };
-        console.log(this.enemies)
-        console.log(this.storage)
         this.storage = [];
         this.enemies = [];
     }.bind(this);
@@ -184,19 +205,45 @@ function Game(size) {
     this.gameOver = function () {
         clearInterval(this.moveTimer);
         clearInterval(this.animateTimer);
-        this.resetEnemies();
-        document.getElementById('gameOver').style.zIndex = 1;
         this.sounds.gameOver.play();
-    }.bind(this);
+        let gameOver = document.getElementById('gameOver');
+        gameOver.style.zIndex = 2;
+        // console.log(gameOver)
+        // gameOver.onclick = function() {
+        //     this.resetGame();
+        // }.bind(this);
+    };
 
     // Ganar la partida.
     this.win = function () {
         clearInterval(this.moveTimer);
         clearInterval(this.animateTimer);
         this.sounds.winSound.play();
-        this.resetEnemies();
-        document.getElementById('victory').style.zIndex = 1;
+        let victory = document.getElementById('victory');
+        victory.style.zIndex = 2;
+        // console.log(victory)
+        // victory.onclick = function() {
+        //     this.resetGame();
+        // }.bind(this);
     };
+
+    // this.resetCanvas = function() {
+    //     document.getElementById('start').style.display = 'inline-block';
+    //     document.getElementsByTagName('h1')[0].style.display = 'block';
+    //     document.getElementById('health').style.zIndex = '0';
+    //     document.getElementById('heart').style.zIndex = '0';
+    //     document.getElementById('startScreen').style.backgroundImage = 'url("images/startImage.png")';
+    //     document.getElementById('server').style.zIndex = '0';
+    // };
+
+    // this.resetGame = function() {
+    //     this.resetEnemies();
+    //     this.deleteTowers();
+    //     this.health = 3;
+    //     this.sounds.pauseAll();
+    //     this.resetCanvas();
+    //     this.startLevel();
+    // }.bind(this);
 
     // Anima el juego.
     this.animateGame = function () {
@@ -212,15 +259,7 @@ function Game(size) {
         this.animateTowers();
     }.bind(this);
 
-    // Inicia el juego.
-    this.startLevel = function () {
-        let wellcome = document.getElementById('wellcome');
-        wellcome.onclick = function () {
-            wellcome.style.display = 'none';
-            document.getElementById('canvas').style.display = 'block';
-            this.sounds.startMusic.loop = true;
-            this.sounds.startMusic.play();
-        }.bind(this);
+    this.pushStartButton = function() {
         let startButton = document.getElementById('startButton');
         startButton.onclick = function () {
             this.sounds.startMusic.pause();
@@ -232,14 +271,31 @@ function Game(size) {
             document.getElementById('server').style.zIndex = '1';
             this.sounds.backgroundMusic.loop = true;
             this.sounds.backgroundMusic.play();
-            this.generateTableHtml(game.size);
             this.map = this.level1();
+            this.generateTableHtml(game.size);
             this.printPathLevel1();
             this.storeEnemies();
             this.addClickEvent();
             this.moveTimer = setInterval(this.addEnemiesToMap, 1000);
             this.animateTimer = setInterval(this.animateGame, 350);
+            this.enemiesInLvl = this.storage.length;
+            this.enemiesInLvlHtml.style.display = 'inline-block';
+            this.enemiesInLvlHtml.innerText = `Enemies Left: ${this.enemiesInLvl}/${this.enemiesInLvl}`;
+            this.towersLeftHtml.style.display = 'inline-block';
+            this.towersLeftHtml.innerText = `Towers Left: ${this.towersLeft}/${this.towersLeft}`;
         }.bind(this);
+    }
+
+    // Inicia el juego.
+    this.startLevel = function () {
+        let wellcome = document.getElementById('wellcome');
+        wellcome.onclick = function () {
+            wellcome.style.display = 'none';
+            document.getElementById('canvas').style.display = 'block';
+            this.sounds.startMusic.loop = true;
+            this.sounds.startMusic.play();
+        }.bind(this);
+        this.pushStartButton();
     };
     this.startLevel();
 };

@@ -1,7 +1,7 @@
 function Enemy(size) {
     // Coordenadas iniciales del enemigo.
     this.x = -1,
-    this.y = 10,
+    this.y = 7,
     this.health = 6;
 
     // Imprime el enemigo en su posición actual.
