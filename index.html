@@ -3,6 +3,8 @@
 <head>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="#" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REBOOT DEFENSE</title>
@@ -12,15 +14,16 @@
         <div id="start">
             <button id="startButton" type="button">START</button>
         </div>
-        <section id="startScreen">
-            
-        </section>
+        <section id="startScreen"></section>
         <div id="heart"></div>
         <div id="health">3</div>
+        <section id="gameOver">YOU LOOSE</section>
+        <section id="victory">YOU WIN</section>
         <footer>
             <h1>PRESS BUTTON TO PLAY</h1>
         </footer>
     </section>
+    <script src="scripts/sound.js"></script>
     <script src="scripts/projectile.js"></script>
     <script src="scripts/towers.js"></script>
     <script src="scripts/enemies.js"></script>

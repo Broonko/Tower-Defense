@@ -5,6 +5,7 @@ function Tower() {
     this.projectiles = [];  //QUITAR
     this.distanceToAllEnemies = [];
     this.projectileTimer;
+    this.sounds = new Sound();
 
     // Calcula la distancia de cada torre a todos los enemigos.
     this.calculateEnemiesDistance = function(enemies) {
@@ -35,5 +36,6 @@ function Tower() {
         // this.projectiles.push(projectile);
         projectile.printProjectile();
         projectile.moveProjectile(enemies[enemyToShoot], enemyToShoot);
-    }
+        this.sounds.shootSound.play();
+    };
 }

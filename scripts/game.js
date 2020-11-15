@@ -9,10 +9,7 @@ function Game(size) {
     this.map;
     this.enemies = [];
     this.storage = [];
-    this.towerBuilt = new Audio('sounds/tower.mp3');
-    this.enemyKilled = new Audio('sounds/enemyDeath.mp3');
-    this.backgroundMusic = new Audio('sounds/backgroundMusic.mp3');
-    // this.startMusic = new Audio('sounds/elevation.mp3');
+    this.sounds = new Sound();
 
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function (size) {
@@ -24,12 +21,35 @@ function Game(size) {
                 var cell = document.createElement("td");
                 row.appendChild(cell);
                 cell.classList.add("cell" + j);
+                // console.log(cell)
+                // this.generateBackground(cell);
             }
             table.appendChild(row);
             row.classList.add("row" + i);
         }
         canvas.appendChild(table);
     };
+
+    // this.generateBackground = function(cell) {
+    //     // console.log(cell)
+    //     let zerOne = Math.random()*4;
+    //     if (zerOne < 1) {
+    //         console.log(cell)
+    //         cell.classList.add('zeroSoft');
+    //     }
+    //     if (zerOne >= 1 && zerOne < 2) {
+    //         console.log(cell)
+    //         cell.classList.add('zeroHard');
+    //     }
+    //     if (zerOne >= 2 && zerOne < 3) {
+    //         console.log(cell)
+    //         cell.classList.add('oneSoft');
+    //     }
+    //     if (zerOne >= 3 && zerOne < 4) {
+    //         console.log(cell)
+    //         cell.classList.add('oneHard');
+    //     }
+    // }
 
     // Genera una matriz llena de 0 del tamaño "size".
     this.generateTable = function (size) {
@@ -40,6 +60,12 @@ function Game(size) {
     this.printPathLevel1 = function () {
         var level1Path = document.getElementsByClassName("row10")[0];
         level1Path.classList.add("path");
+        // for (let i = 0; i < level1Path.length; i++) {
+        //     level1Path[i].classList.remove("zeroSoft");
+        //     level1Path[i].classList.remove("zeroHard");
+        //     level1Path[i].classList.remove("oneSoft");
+        //     level1Path[i].classList.remove("oneHard");
+        // }
     };
 
     // Sustituye los 0 de la fila indicada por 2.
@@ -51,7 +77,7 @@ function Game(size) {
 
     // Genera los enemigos y los guarda en un array(storage).
     this.storeEnemies = function () {
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 6; i++) {
             this.storage.push(new Enemy(this.size));
         }
     };
@@ -72,26 +98,25 @@ function Game(size) {
                 self.looseHealth();
                 self.updateHealthDisplay();
             }
-            // Si lo hacemos con else if, funsciona siempre y cuando haya un espacio entre todos los enemigos.
-           
+
             self.enemies.forEach(enemy => {
-                if (self.map[enemy.y][enemy.x] === 2 || enemy.x === -1) {
-                    enemy.moveRight();
-                }
+                if (self.map[enemy.y][enemy.x] === 1) enemy.moveUp();
+                if (self.map[enemy.y][enemy.x] === 2 || enemy.x === -1) enemy.moveRight();
+                if (self.map[enemy.y][enemy.x] === 3) enemy.moveDown();
+                if (self.map[enemy.y][enemy.x] === 4) enemy.moveLeft();
                 //console.log(enemy);
                 enemy.printEnemy();
             });
         }
     };
 
-    this.deleteEnemy = function(position) {
+    this.deleteEnemy = function (position) {
         if (this.enemies.length > 0) {
             let enemy = document.querySelector(`tr.row${this.enemies[position].y} > td.cell${this.enemies[position].x}`);
             enemy.classList.remove('enemy');
             delete this.enemies[position];
             this.enemies.splice(position, 1);
-            this.enemyKilled.play();
-            this.enemyKilled.volume = 0.2;
+            this.sounds.enemyKilled.play();
         }
         console.log(this.enemies);
     };
@@ -103,8 +128,7 @@ function Game(size) {
                 if (cell === 0) {
                     let cellHtml = document.querySelector(`tr.row${r} > td.cell${c}`)
                     cellHtml.onclick = function () {
-                        self.towerBuilt.play();
-                        self.towerBuilt.volume = 0.1;
+                        self.sounds.towerBuilt.play();
                         self.addTowers(cellHtml, r, c);
                     }
                 }
@@ -135,36 +159,41 @@ function Game(size) {
         self.health--;
     };
 
-    // Muestra la salud del jugador.
-    // this.displayHealth = function () {
-    //     let canvas = document.getElementById('canvas');
-    //     let healthDisplay = document.createElement('section');
-    //     let healthImage = document.createElement('div');
-    //     healthDisplay.classList.add('healthDisplay');
-    //     canvas.appendChild(healthDisplay);
-    //     healthDisplay.innerText = `${self.health}`;
-    //     healthImage.classList.add('heart');
-    //     healthDisplay.appendChild(healthImage);
-    // };
-
     // Actualiza la vida del jugador.
     this.updateHealthDisplay = function () {
         let health = document.getElementById('health');
         health.innerText = `${self.health}`;
     };
 
+    this.resetEnemies = function () {
+        for (let i = 0; i < self.storage.length; i++) {
+            delete self.storage[i];
+        }
+        for (let i = 0; i < self.enemies.length; i++) {
+            delete self.enemies[i];
+        }
+        console.log(self.enemies)
+        console.log(self.storage)
+        self.storage = [];
+        self.enemies = [];
+    }
+
     // Fin de partida.
     this.gameOver = function () {
         clearInterval(self.moveTimer);
         clearInterval(self.animateTimer);
-        self.enemies = [];
-        alert("GAME OVER");
+        self.resetEnemies();
+        document.getElementById('gameOver').style.zIndex = 1;
+        // alert("GAME OVER");
     };
 
     this.win = function () {
         clearInterval(this.moveTimer);
         clearInterval(this.animateTimer);
-        alert("CONGRATULATIONS YOU WIN");
+        this.sounds.winSound.play();
+        this.resetEnemies();
+        document.getElementById('victory').style.zIndex = 1;
+        // alert("CONGRATULATIONS YOU WIN");
     }
 
     // Anima el juego.
@@ -175,10 +204,10 @@ function Game(size) {
         if (this.storage.length === 0 &&
             this.enemies.length === 0 &&
             this.health > 0) {
-                this.win();
+            this.win();
         }
         this.animateEnemies();
-        this.animateTowers();   
+        this.animateTowers();
     }.bind(this);
 
     // Inicia el juego.
@@ -187,18 +216,18 @@ function Game(size) {
         // let canvas = document.getElementById('canvas');
         // canvas.onclick = function() {
         //     this.startMusic.loop = true;
-        //     this.startMusic.volume = 0.2;
-        //     this.startMusic.play();
+        //     this.sounds.startMusic.volume = 0.2;
+        //     this.sounds.startMusic.play();
         // }.bind(this);
-        startButton.onclick = function() {
+        startButton.onclick = function () {
             // this.startMusic.pause();
             document.getElementById('start').style.display = 'none';
             document.getElementsByTagName('h1')[0].style.display = 'none';
             document.getElementById('health').style.zIndex = '1';
             document.getElementById('heart').style.zIndex = '1';
-            this.backgroundMusic.loop = true;
-            this.backgroundMusic.volume = 0.2;
-            this.backgroundMusic.play();
+            document.getElementById('startScreen').style.backgroundImage = 'url("images/background2.jpg")';
+            this.sounds.backgroundMusic.loop = true;
+            this.sounds.backgroundMusic.play();
             this.generateTableHtml(game.size);
             this.map = this.level1();
             this.printPathLevel1();
@@ -213,7 +242,7 @@ function Game(size) {
 }
 
 
-var game = new Game(20);
+var game = new Game(15);
 // console.log(game);
 
 

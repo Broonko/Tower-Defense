@@ -1,37 +1,43 @@
 #canvas {
     position: relative;
-    width: 800px;
-    height: 600px;
+    width: 1000px;
+    height: 800px;
     border: 1px solid black;
-    
+    background-color: black;
 }
 
 table {
     position: absolute;
-    background-color: green;
+    /* background-image: url(images/board6.png); */
+    border: 1px solid black;
     top: 40px;
     left: 40px;
-    
+    border-spacing: 0;
 }
 
 td {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     border: 1px solid black;
     position: relative;
     padding: 0;
 }
 
+td:hover {
+    background-color: rgba(0, 183, 255, 0.11);
+}
+
 .path {
-    background-color: burlywood;
+    background-image: url(images/path.png);
+    background-color: black;
 }
 
 .enemy {
-    background-color: red;
+    background-image: url(images/virus16.png);
 }
 
 .towers {
-    background-color: blue ;
+    background-image: url(images/tower.png);
 }
 
 /* #healthDisplay {
@@ -53,7 +59,7 @@ td {
     position: absolute;
     background-repeat: no-repeat;
     background-size: contain;
-    background-image: url(images/heartHealth.png);
+    background-image: url(images/heart.png);
 }
 
 #health {
@@ -75,14 +81,14 @@ td {
     width: 8px;
     height: 8px;
     background-color: yellow;
-    top: 6px;
-    left: 6px;
+    top: 18px;
+    left: 18px;
 }
 
 #start {
     display: inline-block;
     position: absolute;
-    left: 340px;
+    left: 440px;
     bottom: 100px;
     z-index: 1;
     border-radius: 10px;
@@ -111,7 +117,8 @@ td {
     height: 100%;
     z-index: 0;
     background-image: url(images/startImage.png);
-    background-size: contain;  
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 footer {
@@ -119,7 +126,71 @@ footer {
     z-index: 2;
     position: absolute;
     bottom : 0;
-    left: 32%;
+    left: 35%;
 }
 
+#gameOver {
+    width: 400px;
+    height: 200px;
+    background-color: black;
+    color: white;
+    border: 10px solid blue;
+    border-radius: 30px;
+    position: absolute;
+    font-size: 50px;
+    font-family: 'Goldman', cursive;
+    line-height: 200px;
+    text-align: center;
+    top: 200px;
+    left: 200px;
+    z-index: -1;
+    /* background-image: url(images/gameover.png); */
+    /* background-size: contain; */
+}
 
+#victory {
+    width: 400px;
+    height: 200px;
+    background-color: black;
+    color: white;
+    border: 10px solid blue;
+    border-radius: 30px;
+    position: absolute;
+    font-size: 50px;
+    font-family: 'Goldman', cursive;
+    line-height: 200px;
+    text-align: center;
+    top: 200px;
+    left: 200px;
+    z-index: -1;
+    /* background-image: url(images/gameover.png); */
+    /* background-size: contain; */
+}
+
+/* .zeroSoft {
+    background-image: url(images/0\ soft.png);
+    background-color: black;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.zeroHard {
+    background-image: url(images/0\ hard.png);
+    background-color: black;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.oneSoft {
+    background-image: url(images/1\ soft.png);
+    background-color: black;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.oneHard {
+    background-image: url(images/1\ hard.png);
+    background-color: black;
+    background-size: contain;
+    background-repeat: no-repeat;
+} */
