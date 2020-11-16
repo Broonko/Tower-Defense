@@ -28,12 +28,10 @@ function Game(size) {
                 var cell = document.createElement("td");
                 row.appendChild(cell);
                 cell.classList.add("cell" + j);
-                // console.log(cell)
-                // this.generateBackground(cell);
-            }
+            };  
             table.appendChild(row);
             row.classList.add("row" + i);
-        }
+        };
         canvas.appendChild(table);
     };
 
@@ -62,24 +60,12 @@ function Game(size) {
     // Genera una matriz llena de 0 del tamaño "size".
     this.generateTable = function (size) {
         return Array(size).fill(Array(size).fill(0));
-    };
-
-    // Genera el camino en la fila indicada en HTML.
-    this.printPathLevel1 = function () {
-        var level1Path = document.getElementsByClassName("row7")[0];
-        level1Path.classList.add("path");
-        // for (let i = 0; i < level1Path.length; i++) {
-        //     level1Path[i].classList.remove("zeroSoft");
-        //     level1Path[i].classList.remove("zeroHard");
-        //     level1Path[i].classList.remove("oneSoft");
-        //     level1Path[i].classList.remove("oneHard");
-        // }
-    };
+    }; 
 
     // Sustituye los 0 de la fila indicada por 2.
     this.level1 = function () {
         let field = this.generateTable(this.size);
-        field.splice(7, 1, Array(this.size).fill(2));
+        field.splice(7, 1, Array(this.size).fill(1));
         this.towersLeft = 2;
         this.maxTowers = this.towersLeft;
         this.lvl = 1;
@@ -90,6 +76,15 @@ function Game(size) {
         return field;
     };
 
+     // Genera el camino en la fila indicada en HTML.
+     this.printPathLevel1 = function () {
+        var level1Path = document.querySelectorAll('.row7  > td');
+        for (let i = 0; i < level1Path.length; i++) {
+            level1Path[i].classList.add('path');
+        };
+    };
+
+    
     // Genera los enemigos y los guarda en un array(storage).
     this.storeEnemies = function () {
         for (let i = 0; i < 20; i++) {
@@ -110,14 +105,16 @@ function Game(size) {
             if (this.enemies[0].x === this.size) {
                 delete this.enemies[0];
                 this.enemies.shift();
-                this.looseHealth();
+                this.loseHealth();
                 this.updateHealthDisplay();
             };
             this.enemies.forEach(enemy => {
-                if (this.map[enemy.y][enemy.x] === 1) enemy.moveUp();
-                if (this.map[enemy.y][enemy.x] === 2 || enemy.x === -1) enemy.moveRight();
-                if (this.map[enemy.y][enemy.x] === 3) enemy.moveDown();
-                if (this.map[enemy.y][enemy.x] === 4) enemy.moveLeft();
+                console.log(enemy);
+                enemy.moveEnemy(this.map);
+                // if (this.map[enemy.y][enemy.x] === 1) enemy.moveUp();
+                // if (this.map[enemy.y][enemy.x] === 2 || enemy.x === -1) enemy.moveRight();
+                // if (this.map[enemy.y][enemy.x] === 3) enemy.moveDown();
+                // if (this.map[enemy.y][enemy.x] === 4) enemy.moveLeft();
                 enemy.printEnemy();
             });
         };
@@ -184,7 +181,7 @@ function Game(size) {
     }.bind(this);
 
     // Quita salud al jugador.
-    this.looseHealth = function () {
+    this.loseHealth = function () {
         this.health--;
     }.bind(this);
 
@@ -277,7 +274,7 @@ function Game(size) {
             this.win();
         };
         this.animateEnemies();
-        this.animateTowers();
+        // this.animateTowers();
     }.bind(this);
 
     this.pushStartButton = function() {
@@ -310,13 +307,13 @@ function Game(size) {
             this.towersLeftHtml.style.display = 'inline-block';
             this.towersLeftHtml.innerText = `Towers Left: ${this.towersLeft}/${this.towersLeft}`;
         }.bind(this);
-    }
+    };
 
     // Inicia el juego.
     this.startLevel = function () {
-        let wellcome = document.getElementById('wellcome');
-        wellcome.onclick = function () {
-            wellcome.style.display = 'none';
+        let welcome = document.getElementById('welcome');
+        welcome.onclick = function () {
+            welcome.style.display = 'none';
             document.getElementById('canvas').style.display = 'block';
             this.sounds.startMusic.loop = true;
             this.sounds.startMusic.play();
