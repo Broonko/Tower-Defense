@@ -64,16 +64,6 @@ td:hover {
     background-image: url(images/tower.png);
 }
 
-/* #healthDisplay {
-    position: absolute;
-    width: 150px;
-    height: 50px;
-    border: 2px solid red;
-    top: 40px;
-    right: 40px;
-    z-index: -1;
-} */
-
 #heart {
     top: 80px;
     right: 160px;

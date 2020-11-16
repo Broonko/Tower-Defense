@@ -84,6 +84,7 @@ function Game(size) {
         this.towersLeft = 2;
         this.maxTowers = this.towersLeft;
         this.lvl = 1;
+        this.lvlHtml.style.zIndex = "1";
         this.lvlHtml.innerText = `Level: ${this.lvl}`;
         this.lvlHtml.style.display = 'inline-block';
         return field;
@@ -185,8 +186,7 @@ function Game(size) {
 
     // Actualiza la vida del jugador.
     this.updateHealthDisplay = function () {
-        let health = document.getElementById('health');
-        health.innerText = `${this.health}`;
+        document.getElementById('health').innerText = `${this.health}`; 
     }.bind(this);
 
     // Elimina a los enemigos cuando ganas o pierdes (en memoria).
@@ -208,10 +208,10 @@ function Game(size) {
         this.sounds.gameOver.play();
         let gameOver = document.getElementById('gameOver');
         gameOver.style.zIndex = 2;
-        // console.log(gameOver)
-        // gameOver.onclick = function() {
-        //     this.resetGame();
-        // }.bind(this);
+        console.log(gameOver)
+        gameOver.onclick = function() {
+            this.resetGame();
+        }.bind(this);
     };
 
     // Ganar la partida.
@@ -221,29 +221,38 @@ function Game(size) {
         this.sounds.winSound.play();
         let victory = document.getElementById('victory');
         victory.style.zIndex = 2;
-        // console.log(victory)
-        // victory.onclick = function() {
-        //     this.resetGame();
-        // }.bind(this);
+        console.log(victory)
+        victory.onclick = function() {
+            this.resetGame();
+        }.bind(this);
     };
 
-    // this.resetCanvas = function() {
-    //     document.getElementById('start').style.display = 'inline-block';
-    //     document.getElementsByTagName('h1')[0].style.display = 'block';
-    //     document.getElementById('health').style.zIndex = '0';
-    //     document.getElementById('heart').style.zIndex = '0';
-    //     document.getElementById('startScreen').style.backgroundImage = 'url("images/startImage.png")';
-    //     document.getElementById('server').style.zIndex = '0';
-    // };
+    this.resetCanvas = function() {
+        document.getElementById('start').style.display = 'inline-block';
+        document.getElementsByTagName('h1')[0].style.display = 'block';
+        document.getElementById('health').style.zIndex = '-1';
+        document.getElementById('heart').style.zIndex = '-1';
+        document.getElementById('startScreen').style.backgroundImage = 'url("images/startImage.png")';
+        document.getElementById('server').style.zIndex = '-1';
+        document.getElementsByTagName('table')[0].remove();
+        this.enemiesInLvlHtml.style.zIndex = '-1';
+        this.towersLeftHtml.style.zIndex = '-1';
+        this.lvlHtml.style.zIndex = '-1';
+        document.getElementById('gameOver').style.zIndex = '-1';
+        document.getElementById('victory').style.zIndex = '-1';
+    };
 
-    // this.resetGame = function() {
-    //     this.resetEnemies();
-    //     this.deleteTowers();
-    //     this.health = 3;
-    //     this.sounds.pauseAll();
-    //     this.resetCanvas();
-    //     this.startLevel();
-    // }.bind(this);
+    this.resetGame = function() {
+        this.resetEnemies();
+        this.deleteTowers();
+        this.health = 3;
+        this.updateHealthDisplay();        
+        this.sounds.pauseAll();
+        this.sounds.startMusic.loop = true;
+        this.sounds.startMusic.play();
+        this.resetCanvas();
+        this.startLevel();
+    }.bind(this);
 
     // Anima el juego.
     this.animateGame = function () {
@@ -279,8 +288,10 @@ function Game(size) {
             this.moveTimer = setInterval(this.addEnemiesToMap, 1000);
             this.animateTimer = setInterval(this.animateGame, 350);
             this.enemiesInLvl = this.storage.length;
+            this.enemiesInLvlHtml.style.zIndex = "1";
             this.enemiesInLvlHtml.style.display = 'inline-block';
             this.enemiesInLvlHtml.innerText = `Enemies Left: ${this.enemiesInLvl}/${this.enemiesInLvl}`;
+            this.towersLeftHtml.style.zIndex = "1";
             this.towersLeftHtml.style.display = 'inline-block';
             this.towersLeftHtml.innerText = `Towers Left: ${this.towersLeft}/${this.towersLeft}`;
         }.bind(this);
