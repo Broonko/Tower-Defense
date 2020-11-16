@@ -16,8 +16,7 @@ function Game(size) {
     this.maxTowers;
     this.lvl;
     this.lvlHtml = document.getElementById('lvl');
-    // this.table;
-
+    this.coins;
 
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function (size) {
@@ -84,6 +83,7 @@ function Game(size) {
         this.towersLeft = 2;
         this.maxTowers = this.towersLeft;
         this.lvl = 1;
+        this.coins = 100;
         this.lvlHtml.style.zIndex = "1";
         this.lvlHtml.innerText = `Level: ${this.lvl}`;
         this.lvlHtml.style.display = 'inline-block';
@@ -132,6 +132,8 @@ function Game(size) {
             this.enemies.splice(position, 1);
             this.sounds.enemyKilled.play();
             this.enemiesInLvlHtml.innerText = `Enemies Left: ${this.storage.length + this.enemies.length}/${this.enemiesInLvl}`;
+            this.coins += 25;
+            this.updateCoins();
         };
     };
 
@@ -151,7 +153,7 @@ function Game(size) {
 
     // Añade torres y actualiza el display de torres restantes.
     this.addTowers = function (cell, y, x) {
-        if (this.towers.length < 2) {
+        if (this.towers.length < 2 && this.coins >= 50) {
             cell.classList.add("towers");
             this.towers.push(new Tower());
             this.towers[this.towers.length - 1].y = y;
@@ -159,6 +161,8 @@ function Game(size) {
             this.sounds.towerBuilt.play();
             this.towersLeft--;
             this.towersLeftHtml.innerText = `Towers Left: ${this.towersLeft}/${this.maxTowers}`
+            this.coins -= 50;
+            this.updateCoins();
         };
     };
 
@@ -188,6 +192,10 @@ function Game(size) {
     this.updateHealthDisplay = function () {
         document.getElementById('health').innerText = `${this.health}`; 
     }.bind(this);
+
+    this.updateCoins = function () {
+        document.getElementById('coins').innerText = `${this.coins}`;
+    };
 
     // Elimina a los enemigos cuando ganas o pierdes (en memoria).
     this.resetEnemies = function () {
@@ -232,6 +240,8 @@ function Game(size) {
         document.getElementsByTagName('h1')[0].style.display = 'block';
         document.getElementById('health').style.zIndex = '-1';
         document.getElementById('heart').style.zIndex = '-1';
+        document.getElementById('coin').style.zIndex = '-1';
+        document.getElementById('coins').style.zIndex = '-1';
         document.getElementById('startScreen').style.backgroundImage = 'url("images/startImage.png")';
         document.getElementById('server').style.zIndex = '-1';
         document.getElementsByTagName('table')[0].remove();
@@ -246,7 +256,9 @@ function Game(size) {
         this.resetEnemies();
         this.deleteTowers();
         this.health = 3;
-        this.updateHealthDisplay();        
+        this.updateHealthDisplay();
+        this.coins = 100;
+        this.updateCoins();
         this.sounds.pauseAll();
         this.sounds.startMusic.loop = true;
         this.sounds.startMusic.play();
@@ -276,11 +288,14 @@ function Game(size) {
             document.getElementsByTagName('h1')[0].style.display = 'none';
             document.getElementById('health').style.zIndex = '1';
             document.getElementById('heart').style.zIndex = '1';
+            document.getElementById('coin').style.zIndex = '1';
+            document.getElementById('coins').style.zIndex = '1';
             document.getElementById('startScreen').style.backgroundImage = 'url("images/background.jpg")';
             document.getElementById('server').style.zIndex = '1';
             this.sounds.backgroundMusic.loop = true;
             this.sounds.backgroundMusic.play();
             this.map = this.level1();
+            this.updateCoins();
             this.generateTableHtml(game.size);
             this.printPathLevel1();
             this.storeEnemies();

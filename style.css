@@ -91,6 +91,33 @@ td:hover {
     color: red;
 }
 
+#coin {
+    top: 130px;
+    right: 165px;
+    z-index: -1;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url(images/coin.png);
+}
+
+#coins {
+    top: 130px;
+    right: 110px;
+    z-index: -1;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    text-align: center;
+    font-family: 'Goldman', 'cursive';
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 50px;
+    color: yellow;
+}
+
 #enemiesLeft {
     position: absolute;
     display: none;
@@ -219,7 +246,7 @@ footer {
 }
 
 #server {
-    background-image: url(/images/server.png);
+    background-image: url(images/server.png);
     width: 100px;
     height: 100px;
     background-size: contain;
