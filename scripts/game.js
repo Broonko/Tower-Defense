@@ -14,9 +14,10 @@ function Game(size) {
     this.towersLeft;
     this.towersLeftHtml = document.getElementById('towersLeft');
     this.maxTowers;
-    this.lvl;
+    this.lvl = 1;
     this.lvlHtml = document.getElementById('lvl');
     this.coins;
+    this.enemiesPerLvl;
 
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function (size) {
@@ -35,28 +36,6 @@ function Game(size) {
         canvas.appendChild(table);
     };
 
-    // Esta función se utilizará en versiones posteriores (cambia el fondo del juego).
-    // this.generateBackground = function(cell) {
-    //     // console.log(cell)
-    //     let zerOne = Math.random()*4;
-    //     if (zerOne < 1) {
-    //         console.log(cell)
-    //         cell.classList.add('zeroSoft');
-    //     }
-    //     if (zerOne >= 1 && zerOne < 2) {
-    //         console.log(cell)
-    //         cell.classList.add('zeroHard');
-    //     }
-    //     if (zerOne >= 2 && zerOne < 3) {
-    //         console.log(cell)
-    //         cell.classList.add('oneSoft');
-    //     }
-    //     if (zerOne >= 3 && zerOne < 4) {
-    //         console.log(cell)
-    //         cell.classList.add('oneHard');
-    //     }
-    // }
-
     // Genera una matriz llena de 0 del tamaño "size".
     this.generateTable = function (size) {
         return Array(size).fill(Array(size).fill(0));
@@ -68,26 +47,54 @@ function Game(size) {
         field.splice(7, 1, Array(this.size).fill(1));
         this.towersLeft = 2;
         this.maxTowers = this.towersLeft;
-        this.lvl = 1;
         this.coins = 100;
         this.lvlHtml.style.zIndex = "1";
         this.lvlHtml.innerText = `Level: ${this.lvl}`;
         this.lvlHtml.style.display = 'inline-block';
+        this.enemiesPerLvl = 10;
+        this.map = field;
+        document.getElementById('startScreen').style.backgroundImage = 'url("images/background.jpg")';
         return field;
     };
 
-     // Genera el camino en la fila indicada en HTML.
-     this.printPathLevel1 = function () {
-        var level1Path = document.querySelectorAll('.row7  > td');
-        for (let i = 0; i < level1Path.length; i++) {
-            level1Path[i].classList.add('path');
-        };
-    };
+    this.level2 = function() {
+        let field = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+                    [0, 1, 0 ,0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+                    [0, 1, 0 ,0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+                    [0, 1, 0 ,0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+                    [1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1],
+                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+        this.towersLeft = 100;
+        this.maxTowers = this.towersLeft;
+        this.lvlHtml.innerText = `Level: ${this.lvl}`;
+        this.map = field;
+        document.getElementById('startScreen').style.backgroundImage = 'url("images/background2.jpg")';
+        return field
+    }
 
+    this.printPathLevel = function(field) {
+        for(let i = 0; i < field.length; i++) {
+            for(let j = 0; j < field[i].length; j++) {
+                if (field[i][j] === 1) {
+                    let cell = document.querySelector(`tr.row${i} > td.cell${j}`);
+                    cell.classList.add('path');
+                }
+            }
+        }
+    }
     
     // Genera los enemigos y los guarda en un array(storage).
     this.storeEnemies = function () {
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < this.enemiesPerLvl; i++) {
             this.storage.push(new Enemy(this.size));
         };
     };
@@ -109,12 +116,7 @@ function Game(size) {
                 this.updateHealthDisplay();
             };
             this.enemies.forEach(enemy => {
-                console.log(enemy);
                 enemy.moveEnemy(this.map);
-                // if (this.map[enemy.y][enemy.x] === 1) enemy.moveUp();
-                // if (this.map[enemy.y][enemy.x] === 2 || enemy.x === -1) enemy.moveRight();
-                // if (this.map[enemy.y][enemy.x] === 3) enemy.moveDown();
-                // if (this.map[enemy.y][enemy.x] === 4) enemy.moveLeft();
                 enemy.printEnemy();
             });
         };
@@ -228,9 +230,17 @@ function Game(size) {
         victory.style.zIndex = 2;
         console.log(victory)
         victory.onclick = function() {
-            this.resetGame();
+            this.nextLvl();
         }.bind(this);
     };
+
+    this.nextLvl = function() {
+        this.lvl++;
+        this.enemiesPerLvl += 5;
+        document.getElementsByTagName('table')[0].remove();
+        document.getElementById('victory').style.zIndex = '-1';
+        this.startLevel();
+    }
 
     this.resetCanvas = function() {
         document.getElementById('start').style.display = 'inline-block';
@@ -274,27 +284,36 @@ function Game(size) {
             this.win();
         };
         this.animateEnemies();
-        // this.animateTowers();
+        this.animateTowers();
     }.bind(this);
+
+    this.updateLvl = function() {
+        switch (this.lvl) {
+            case 1:
+                this.level1();
+                break;
+            case 2:
+                this.level2();
+        }
+    }
 
     this.pushStartButton = function() {
         let startButton = document.getElementById('startButton');
         startButton.onclick = function () {
-            this.sounds.startMusic.pause();
+            this.sounds.pauseAll();
             document.getElementById('start').style.display = 'none';
             document.getElementsByTagName('h1')[0].style.display = 'none';
             document.getElementById('health').style.zIndex = '1';
             document.getElementById('heart').style.zIndex = '1';
             document.getElementById('coin').style.zIndex = '1';
             document.getElementById('coins').style.zIndex = '1';
-            document.getElementById('startScreen').style.backgroundImage = 'url("images/background.jpg")';
             document.getElementById('server').style.zIndex = '1';
             this.sounds.backgroundMusic.loop = true;
             this.sounds.backgroundMusic.play();
-            this.map = this.level1();
-            this.updateCoins();
             this.generateTableHtml(game.size);
-            this.printPathLevel1();
+            this.updateLvl();
+            this.updateCoins();
+            this.printPathLevel(this.map);
             this.storeEnemies();
             this.addClickEvent();
             this.moveTimer = setInterval(this.addEnemiesToMap, 1000);

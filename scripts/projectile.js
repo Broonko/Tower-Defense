@@ -18,6 +18,7 @@ function Projectile(towerX, towerY) {
 
   // Calcula los parámetros del movimiento del proyectil.
   this.calcProjectileDir = function (enemy, position) {
+    console.log(enemy.x)
     let distX = this.towerX - enemy.x;
     let distY = this.towerY - enemy.y;
     var distanceToEnemy = Math.sqrt((distX ** 2) + (distY ** 2));

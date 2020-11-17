@@ -54,7 +54,7 @@ td:hover {
 }
 
 .enemy {
-    background-image: url(images/virus00.gif);
+    background-image: url(images/virus.gif);
     background-size: 75%;
     background-repeat: no-repeat;
     background-position: center;
