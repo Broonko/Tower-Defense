@@ -8,7 +8,7 @@ function Projectile(towerX, towerY) {
   this.distanceDone = 0;
   this.damage = 1;
 
-  // Imprime el proyectil en la celda de la torre.
+  // Imprime el proyectil en la celda de la torre. (towers.js - line 35)
   this.printProjectile = function () {
     this.projectileHtml = document.createElement('div');
     this.projectileHtml.classList.add('projectile');
@@ -16,9 +16,8 @@ function Projectile(towerX, towerY) {
     this.towerHtml.appendChild(this.projectileHtml);
   };
 
-  // Calcula los parámetros del movimiento del proyectil.
+  // Calcula los parámetros del movimiento del proyectil. (towers.js - line 36)
   this.calcProjectileDir = function (enemy, position) {
-    console.log(enemy.x)
     let distX = this.towerX - enemy.x;
     let distY = this.towerY - enemy.y;
     var distanceToEnemy = Math.sqrt((distX ** 2) + (distY ** 2));

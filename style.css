@@ -29,7 +29,6 @@ body {
 
 table {
     position: absolute;
-    /* background-image: url(images/board6.png); */
     border: 1px solid black;
     top: 80px;
     left: 40px;
@@ -48,6 +47,20 @@ td:hover {
     background-color: rgba(0, 183, 255, 0.11);
 }
 
+#muteAllSound {
+    display: inline-block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    z-index: 4;
+    background-image: url(images/turnOffSound.png);
+    background-size: 100%;
+    border-radius: 25px;
+}
+
 .path {
     background-image: url(images/path.png);
     background-color: black;
@@ -61,7 +74,7 @@ td:hover {
 }
 
 .towers {
-    background-image: url(images/tower.png);
+    background-image: url(images/weapon1.png);
 }
 
 #heart {

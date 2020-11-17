@@ -24,4 +24,24 @@ function Sound() {
     this.gameOver.pause();
     this.startMusic.pause();
   };
+
+  this.mute = function() {
+  this.towerBuilt.volume = 0;
+  this.enemyKilled.volume = 0;
+  this.backgroundMusic.volume = 0;
+  this.winSound.volume = 0;
+  this.shootSound.volume = 0;
+  this.gameOver.volume = 0;
+  this.startMusic.volume = 0;
+  }
+
+  this.setVolume = function() {
+  this.towerBuilt.volume = 0.1;
+  this.enemyKilled.volume = 0.1;
+  this.backgroundMusic.volume = 0.1;
+  this.winSound.volume = 0.1;
+  this.shootSound.volume = 0.05;
+  this.gameOver.volume = 0.05;
+  this.startMusic.volume = 0.05;
+  }
 };

@@ -6,7 +6,7 @@ function Tower() {
     this.projectileTimer;
     this.sounds = new Sound();
 
-    // Calcula la distancia de cada torre a todos los enemigos.
+    // Calcula la distancia de cada torre a todos los enemigos. (game.js - line XXX)
     this.calculateEnemiesDistance = function(enemies) {
         this.distanceToAllEnemies = [];
         enemies.forEach(enemy => {
@@ -17,7 +17,7 @@ function Tower() {
         });
     };
 
-    // Si hay un enemigo en rango, la torre dispara.
+    // Si hay un enemigo en rango, la torre dispara. (game.js - line XXX)
     this.checkIfEnemiesInRange = function(enemies) {
         Array.min = function( array ){                      
             return Math.min.apply( Math, array );
@@ -34,6 +34,6 @@ function Tower() {
         let projectile = new Projectile(this.x, this.y);
         projectile.printProjectile();
         projectile.calcProjectileDir(enemies[enemyToShoot], enemyToShoot);
-        this.sounds.shootSound.play();
+        if (!muted) this.sounds.shootSound.play();
     };
 };
