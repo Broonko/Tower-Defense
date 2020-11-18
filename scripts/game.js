@@ -18,6 +18,8 @@ function Game(size) {
     this.lvlHtml = document.getElementById('lvl');
     this.coins;
     this.enemiesPerLvl;
+    this.enemySpawn;
+    this.status = true;
 
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function (size) {
@@ -47,6 +49,11 @@ function Game(size) {
             case 3:
                 this.level3();
                 break;
+            default:
+                this.resetCanvas();
+                this.resetGame();
+                this.lvl = 1;
+                this.updateLevel();
         };
     };
 
@@ -56,6 +63,7 @@ function Game(size) {
         this.towersLeft = 2;
         this.maxTowers = this.towersLeft;
         this.coins = 100;
+        this.enemySpawn = 1200;
         document.getElementById('startScreen').style.backgroundImage = 'url("images/background.jpg")';
         let field = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -79,7 +87,7 @@ function Game(size) {
         console.log("--------------------------------------------------------")
         this.towersLeft = 3;
         this.maxTowers = this.towersLeft;
-        // this.lvlHtml.innerText = `Level: ${this.lvl}`;
+        this.enemySpawn = 1000;
         document.getElementById('startScreen').style.backgroundImage = 'url("images/background2.jpg")';
         let field = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -102,6 +110,7 @@ function Game(size) {
     this.level3 = function() {
         this.towersLeft = 4;
         this.maxTowers = this.towersLeft;
+        this.enemySpawn = 800;
         document.getElementById('startScreen').style.backgroundImage = 'url("images/background3.jpg")';
         let field = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -122,6 +131,7 @@ function Game(size) {
     }
 
     this.printPathLevel = function (field) {
+        console.log(field)
         for (let i = 0; i < field.length; i++) {
             for (let j = 0; j < field[i].length; j++) {
                 if (field[i][j] === 1) {
@@ -219,20 +229,24 @@ function Game(size) {
     this.addClickEvent = function () {
         this.map.forEach((row, r) => {
             row.forEach((cell, c) => {
-                if (cell === 0) {
-                    let cellHtml = document.querySelector(`tr.row${r} > td.cell${c}`)
-                    cellHtml.onclick = function () {
-                        this.addTowers(cellHtml, r, c);
-                        console.log(this.towersLeft)
-                    }.bind(this);
-                };
+                let cellHtml = document.querySelector(`tr.row${r} > td.cell${c}`)
+                cellHtml.onclick = function () {
+                    if (cell === 0) {
+                        if (this.map[r][c] !== 2) {
+                            this.addTowers(cellHtml, r, c);
+                        }
+                    };
+                }.bind(this);
             });
         });
     };
 
     // Añade torres y actualiza el display de torres restantes.
     this.addTowers = function (cell, y, x) {
-        if (this.towers.length <= this.maxTowers && this.coins >= 50) {
+        if (this.towersLeft > 0 
+            && this.status 
+            && this.coins >= 50) {
+            this.map[y][x] = 2;
             cell.classList.add("towers");
             this.towers.push(new Tower());
             this.towers[this.towers.length - 1].y = y;
@@ -273,7 +287,7 @@ function Game(size) {
         document.getElementById('victory').style.zIndex = '-1';
         this.sounds.pauseAll();
         this.sounds.startMusic.loop = true;
-         if (!muted) this.sounds.startMusic.play();
+        if (!muted) this.sounds.startMusic.play();
     };
 
     // Elimina las torres que haya en la tabla.
@@ -304,10 +318,12 @@ function Game(size) {
         this.updateHealthDisplay();
         this.coins = 100;
         this.updateCoins();
+        this.lvl = 1;
     }.bind(this);
 
     // Perder la partida.
     this.gameOver = function () {
+        this.status = false;
         clearInterval(this.moveTimer);
         clearInterval(this.animateTimer);
          if (!muted) this.sounds.gameOver.play();
@@ -316,6 +332,7 @@ function Game(size) {
         gameOver.onclick = function () {
             this.resetCanvas();
             this.resetGame();
+            this.status = true;
         }.bind(this);
     };
 
@@ -330,16 +347,27 @@ function Game(size) {
     
     //Ganar la partida.
     this.win = function () {
+        let victory = document.getElementById('victory');
+        this.status = false;
         clearInterval(this.moveTimer);
         clearInterval(this.animateTimer);
         this.sounds.winSound.play();
-        let victory = document.getElementById('victory');
         victory.style.zIndex = 2;
-        victory.onclick = function () {
-            this.resetEnemies();
-            this.resetTowers();
-            this.nextLevel();
-        }.bind(this);
+
+        if (this.lvl < 3) {
+            victory.onclick = function () {
+                this.resetEnemies();
+                this.resetTowers();
+                this.nextLevel();
+                this.status = true;
+            }.bind(this);
+        } else {
+            victory.onclick = function () {
+                this.resetCanvas();
+                this.resetGame();
+                this.status = true;
+            }.bind(this);
+        }
     };
 
     // Anima el juego.
@@ -363,8 +391,6 @@ function Game(size) {
         this.printPathLevel(this.map);
         this.storeEnemies();
         this.addClickEvent();
-        console.log(this.maxTowers)
-        console.log(this.towersLeft)
         //--------------------------------------
         this.printLevelCanvas();
             //-------------------
@@ -378,7 +404,7 @@ function Game(size) {
         this.updateHealthDisplay();
         this.updateCoins();
         //----------------------------------------------------
-        this.moveTimer = setInterval(this.addEnemiesToMap, 1000);
+        this.moveTimer = setInterval(this.addEnemiesToMap, this.enemySpawn);
         this.animateTimer = setInterval(this.animateGame, 350);
     };
 }
