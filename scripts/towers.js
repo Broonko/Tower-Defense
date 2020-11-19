@@ -31,9 +31,32 @@ function Tower() {
 
     // Dispara el proyectil.
     this.shootProyectile = function(enemies, enemyToShoot) {
-        let projectile = new Projectile(this.x, this.y);
+        let projectile = new Projectile(this.x, this.y, this.damage);
         projectile.printProjectile();
         projectile.calcProjectileDir(enemies[enemyToShoot], enemyToShoot);
         if (!muted) this.sounds.shootSound.play();
     };
 };
+
+//
+function Tower1() {
+    Tower.call(this);
+    this.damage = 1;
+};
+Tower1.prototype = Object.create(Tower.prototype);
+Tower1.prototype.constructor = Tower1;
+
+function Tower2() {
+    Tower.call(this);
+    this.damage = 2;
+};
+Tower2.prototype = Object.create(Tower.prototype);
+Tower2.prototype.constructor = Tower2;
+
+function Tower3() {
+    Tower.call(this);
+    this.damage = 3;
+};
+Tower3.prototype = Object.create(Tower.prototype);
+Tower3.prototype.constructor = Tower3;
+

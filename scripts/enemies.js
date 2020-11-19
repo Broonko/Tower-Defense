@@ -16,9 +16,8 @@ function Enemy(size) {
         };
     };
 
-    //El enemigo revisa a donde puede ir y avanza por el camino. (game.js - line XXX)
+    // El enemigo revisa a donde puede ir y avanza por el camino. (game.js - line XXX)
     this.moveEnemy = function (map) {
-        //¿Porque con los else if funciona y sin ellos no. Sin else if, entra en 2 if en una iteracion y previousX pierde el valor del primer if al que ha entrado, asi que solo borra la celda del segundo if. 
         if (map[this.y-1][this.x] === 1
             && this.previousY !== this.y-1) {
             this.previousX = this.x;

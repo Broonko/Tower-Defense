@@ -15,6 +15,7 @@ function Sound() {
   this.startMusic = new Audio('sounds/start.mp3');
   this.startMusic.volume = 0.05;
 
+  // Pausa todos los sonidos.
   this.pauseAll = function() {
     this.towerBuilt.pause();
     this.enemyKilled.pause();
@@ -25,6 +26,7 @@ function Sound() {
     this.startMusic.pause();
   };
 
+  // Mutea todos los sonidos.
   this.mute = function() {
   this.towerBuilt.volume = 0;
   this.enemyKilled.volume = 0;
@@ -33,9 +35,10 @@ function Sound() {
   this.shootSound.volume = 0;
   this.gameOver.volume = 0;
   this.startMusic.volume = 0;
-  }
+  };
 
-  this.setVolume = function() {
+  // Desmutea todos los sonidos.
+  this.unMute = function() {
   this.towerBuilt.volume = 0.1;
   this.enemyKilled.volume = 0.1;
   this.backgroundMusic.volume = 0.1;
@@ -43,5 +46,5 @@ function Sound() {
   this.shootSound.volume = 0.05;
   this.gameOver.volume = 0.05;
   this.startMusic.volume = 0.05;
-  }
+  };
 };

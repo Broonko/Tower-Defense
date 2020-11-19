@@ -1,3 +1,4 @@
+// Esta función contiene toda la lógica del juego.
 function Game(size) {
     this.size = size;
     this.animateTimer;
@@ -20,6 +21,8 @@ function Game(size) {
     this.enemiesPerLvl;
     this.enemySpawn;
     this.status = true;
+    this.levels = new Level();
+    this.tower = 1;
 
     // Genera el tablero de juego en HTML.
     this.generateTableHtml = function (size) {
@@ -38,6 +41,7 @@ function Game(size) {
         canvas.appendChild(table);
     };
 
+    // Selecciona el nivel.
     this.updateLevel = function () {
         switch (this.lvl) {
             case 1:
@@ -57,7 +61,7 @@ function Game(size) {
         };
     };
 
-    // Sustituye los 0 de la fila indicada por 2.
+    // Ejecuta el nivel 1.
     this.level1 = function () {
         this.enemiesPerLvl = 10;
         this.towersLeft = 2;
@@ -65,73 +69,29 @@ function Game(size) {
         this.coins = 100;
         this.enemySpawn = 1200;
         document.getElementById('startScreen').style.backgroundImage = 'url("images/background.jpg")';
-        let field = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-                    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-                    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-                    [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-        this.map = field;
+        this.map = this.levels.one;
     };
 
+    // Ejecuta el nivel 2.
     this.level2 = function () {
-        console.log("--------------------------------------------------------")
         this.towersLeft = 3;
         this.maxTowers = this.towersLeft;
         this.enemySpawn = 1000;
         document.getElementById('startScreen').style.backgroundImage = 'url("images/background2.jpg")';
-        let field = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
-                    [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-                    [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-                    [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-                    [1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1],
-                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-        this.map = field;
+        this.map = this.levels.two;
     };
 
+    // Ejecuta el nivel 3.
     this.level3 = function() {
         this.towersLeft = 4;
         this.maxTowers = this.towersLeft;
         this.enemySpawn = 800;
         document.getElementById('startScreen').style.backgroundImage = 'url("images/background3.jpg")';
-        let field = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-                    [1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1],
-                    [0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0],
-                    [0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0],
-                    [0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0],
-                    [0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
-                    [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-        this.map = field;
-    }
+        this.map = this.levels.three;
+    };
 
+    // Imprime el nivel en la tabla.
     this.printPathLevel = function (field) {
-        console.log(field)
         for (let i = 0; i < field.length; i++) {
             for (let j = 0; j < field[i].length; j++) {
                 if (field[i][j] === 1) {
@@ -142,6 +102,7 @@ function Game(size) {
         };
     };
 
+    // Imprime el canvas.
     this.printLevelCanvas = function () {
         document.getElementById('start').style.display = 'none';
         document.getElementsByTagName('h1')[0].style.display = 'none';
@@ -150,6 +111,7 @@ function Game(size) {
         document.getElementById('coin').style.zIndex = '1';
         document.getElementById('coins').style.zIndex = '1';
         document.getElementById('server').style.zIndex = '1';
+        document.getElementById('shop').style.zIndex = '1';
         this.enemiesInLvlHtml.style.zIndex = "1";
         this.enemiesInLvlHtml.style.display = 'inline-block';
         this.towersLeftHtml.style.zIndex = "1";
@@ -164,19 +126,22 @@ function Game(size) {
         document.getElementById('health').innerText = `${this.health}`;
     }.bind(this);
 
+    // Actualiza las monedas.
     this.updateCoins = function () {
         document.getElementById('coins').innerText = `${this.coins}`;
     };
 
+    // Actualiza los enemigos restantes.
     this.updateEnemies = function () {
         this.enemiesInLvlHtml.innerText = `Enemies Left: ${this.storage.length + this.enemies.length}/${this.enemiesInLvl}`;
-    }
+    };
 
+    // Actualiza las torres restantes.
     this.updateTowers = function () {
         this.towersLeftHtml.innerText = `Towers Left: ${this.towersLeft}/${this.maxTowers}`;
-    }
+    };
 
-    // Genera los enemigos y los guarda en un array(storage).
+    // Genera los enemigos y los guarda en un array (storage).
     this.storeEnemies = function () {
         for (let i = 0; i < this.enemiesPerLvl; i++) {
             this.storage.push(new Enemy(this.size));
@@ -189,11 +154,6 @@ function Game(size) {
             this.enemies.push(this.storage.shift());
         };
     }.bind(this);
-
-    // // Quita salud al jugador. (Se podra usar para quitar corazones)
-    // this.loseHealth = function () {
-    //     this.health--;
-    // }.bind(this);
 
     // Mueve e imprime los enemigos.
     this.animateEnemies = function () {
@@ -234,7 +194,7 @@ function Game(size) {
                     if (cell === 0) {
                         if (this.map[r][c] !== 2) {
                             this.addTowers(cellHtml, r, c);
-                        }
+                        };
                     };
                 }.bind(this);
             });
@@ -244,17 +204,36 @@ function Game(size) {
     // Añade torres y actualiza el display de torres restantes.
     this.addTowers = function (cell, y, x) {
         if (this.towersLeft > 0 
-            && this.status 
-            && this.coins >= 50) {
+            && this.status) {
             this.map[y][x] = 2;
-            cell.classList.add("towers");
-            this.towers.push(new Tower());
-            this.towers[this.towers.length - 1].y = y;
-            this.towers[this.towers.length - 1].x = x;
-            if (!muted) this.sounds.towerBuilt.play();
-            this.towersLeft--;
+            if (this.tower === 1 && this.coins >= 50) {
+                cell.classList.add("tower1");
+                this.towers.push(new Tower1());
+                this.coins -= 50;
+                this.towers[this.towers.length - 1].y = y;
+                this.towers[this.towers.length - 1].x = x;
+                if (!muted) this.sounds.towerBuilt.play();
+                this.towersLeft--;
+            };
+            if (this.tower === 2 && this.coins >= 100) {
+                cell.classList.add("tower2");
+                this.towers.push(new Tower2());
+                this.coins -= 100;
+                this.towers[this.towers.length - 1].y = y;
+                this.towers[this.towers.length - 1].x = x;
+                if (!muted) this.sounds.towerBuilt.play();
+                this.towersLeft--;
+            };
+            if (this.tower === 3 && this.coins >= 150) {
+                cell.classList.add("tower3");
+                this.towers.push(new Tower3());
+                this.coins -= 150;
+                this.towers[this.towers.length - 1].y = y;
+                this.towers[this.towers.length - 1].x = x;
+                if (!muted) this.sounds.towerBuilt.play();
+                this.towersLeft--;
+            };
             this.updateTowers();
-            this.coins -= 50;
             this.updateCoins();
         };
     };
@@ -285,6 +264,7 @@ function Game(size) {
         document.getElementsByTagName('table')[0].remove();
         document.getElementById('gameOver').style.zIndex = '-1';
         document.getElementById('victory').style.zIndex = '-1';
+        document.getElementById('shop').style.zIndex = '-1';
         this.sounds.pauseAll();
         this.sounds.startMusic.loop = true;
         if (!muted) this.sounds.startMusic.play();
@@ -294,8 +274,13 @@ function Game(size) {
     this.resetTowers = function () {
         for (let i = 0; i < this.towers.length; i++) {
             delete this.towers[i];
-        }
+        };
         this.towers = [];
+        for (let i = 0; i < this.map.length; i++) {
+            this.map[i] = this.map[i].map(function(cell) {
+                return cell === 2 ? cell = 0 : cell = cell;
+            });
+        };
     };
 
     // Elimina a los enemigos cuando ganas o pierdes (en memoria).
@@ -310,7 +295,7 @@ function Game(size) {
         this.enemies = [];
     }.bind(this);
 
-    // Resetea los parametros del juego.
+    // Resetea los parámetros del juego.
     this.resetGame = function () {
         this.resetEnemies();
         this.resetTowers();
@@ -343,7 +328,7 @@ function Game(size) {
         document.getElementsByTagName('table')[0].remove();
         document.getElementById('victory').style.zIndex = '-1';
         this.startLevel();
-    }
+    };
     
     //Ganar la partida.
     this.win = function () {
@@ -353,7 +338,6 @@ function Game(size) {
         clearInterval(this.animateTimer);
         this.sounds.winSound.play();
         victory.style.zIndex = 2;
-
         if (this.lvl < 3) {
             victory.onclick = function () {
                 this.resetEnemies();
@@ -367,7 +351,7 @@ function Game(size) {
                 this.resetGame();
                 this.status = true;
             }.bind(this);
-        }
+        };
     };
 
     // Anima el juego.
@@ -384,7 +368,7 @@ function Game(size) {
         };
     }.bind(this);
 
-    // Bucle principal del juego
+    // Bucle principal del juego.
     this.startLevel = function () {
         this.generateTableHtml(size);
         this.updateLevel();
@@ -407,25 +391,28 @@ function Game(size) {
         this.moveTimer = setInterval(this.addEnemiesToMap, this.enemySpawn);
         this.animateTimer = setInterval(this.animateGame, 350);
     };
-}
+};
 
 var game = new Game(15);
 
 var muted = false;
 
 window.onload = function () {
+    // Pantalla inicial del juego (Welcome to the game).
     let welcome = document.getElementById('welcome');
     welcome.onclick = function () {
         welcome.style.display = 'none';
         document.getElementById('canvas').style.display = 'block';
         game.sounds.startMusic.loop = true;
         if (!muted) game.sounds.startMusic.play();
-    }
+    };
+    // Botón que empieza el juego.
     let startButton = document.getElementById('startButton');
     startButton.onclick = function () {
         game.startLevel();
-    }
-    let muteSoundButton = document.getElementById('muteAllSound')
+    };
+    // Botón para mutear el juego.
+    let muteSoundButton = document.getElementById('muteAllSound');
     muteSoundButton.onclick = function() {
         if (!muted) {
             muteSoundButton.style.backgroundImage = "url(images/turnOnSound.png)";
@@ -433,8 +420,28 @@ window.onload = function () {
             muted = true;
         } else {
             muteSoundButton.style.backgroundImage = "url(images/turnOffSound.png)";
-            game.sounds.setVolume();
+            game.sounds.unMute();
             muted = false;
-        }
-    }
+        };
+    };
+    document.addEventListener('keydown', function(event){
+        if (event.key === "1") {
+            game.tower = 1; 
+            document.getElementById("tower1Price").style.backgroundColor = "rgba(255, 255, 255, 0.226)";
+            document.getElementById("tower2Price").style.backgroundColor = "";
+            document.getElementById("tower3Price").style.backgroundColor = "";
+        };
+        if (event.key === "2") {
+            game.tower = 2; 
+            document.getElementById("tower1Price").style.backgroundColor = "";
+            document.getElementById("tower2Price").style.backgroundColor = "rgba(255, 255, 255, 0.226)";
+            document.getElementById("tower3Price").style.backgroundColor = "";
+        };
+        if (event.key === "3") {
+            game.tower = 3;
+            document.getElementById("tower1Price").style.backgroundColor = "";
+            document.getElementById("tower2Price").style.backgroundColor = "";
+            document.getElementById("tower3Price").style.backgroundColor = "rgba(255, 255, 255, 0.226)";
+        };
+    });
 }.bind(game);

@@ -24,14 +24,46 @@
         <section id="health"></section>
         <section id="coin"></section>
         <section id="coins"></section>
-
-        <div id="gameOver">YOU LOSE</div>
-        <div id="victory">YOU WIN</div>
+        <div id="shop">
+            <div class="shopTower">
+                Press 1 to buy 
+                <span id="tower1Price">
+                    <img src="images/weapon1.png" alt="tower1" />
+                    50 
+                    <img class="shopCoins" src="images/coin.png" alt="bitcoin" />
+                </span>
+            </div>
+            <div class="shopTower">
+                Press 2 to buy
+                <span id="tower2Price">
+                    <img src="images/weapon2.png" alt="tower2" />
+                    100 
+                    <img class="shopCoins" src="images/coin.png" alt="bitcoin" />
+                </span>
+            </div>
+            <div class="shopTower">
+                Press 3 to buy
+                <span id="tower3Price">
+                    <img src="images/weapon3.png" alt="tower3" />
+                    150 
+                    <img class="shopCoins" src="images/coin.png" alt="bitcoin" />
+                </span>
+            </div>
+        </div>
+        <div id="gameOver">
+            YOU LOSE
+            <h4>Press to continue</h4>
+        </div>
+        <div id="victory">
+            YOU WIN
+            <h4>Press to continue</h4>
+        </div>
         <div id="server"></div>
         <footer>
             <h1>PRESS BUTTON TO PLAY</h1>
         </footer>
     </section>
+    <script src="scripts/levels.js"></script>
     <script src="scripts/sound.js"></script>
     <script src="scripts/projectile.js"></script>
     <script src="scripts/towers.js"></script>

@@ -1,4 +1,4 @@
-function Projectile(towerX, towerY) {
+function Projectile(towerX, towerY, damage) {
   this.projectileHtml;
   this.towerX = towerX;
   this.towerY = towerY;
@@ -6,7 +6,7 @@ function Projectile(towerX, towerY) {
   this.left = 4;
   this.timerId;
   this.distanceDone = 0;
-  this.damage = 1;
+  this.damage = damage;
 
   // Imprime el proyectil en la celda de la torre. (towers.js - line 35)
   this.printProjectile = function () {
@@ -47,6 +47,6 @@ function Projectile(towerX, towerY) {
   // Daña al enemigo.
   this.doDamage = function (enemy, position) {
     enemy.health -= this.damage;
-    if (enemy.health === 0) game.deleteEnemy(position);
+    if (enemy.health <= 0) game.deleteEnemy(position);
   };
 };
