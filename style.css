@@ -37,9 +37,10 @@ table {
 }
 
 td {
+    background-color: rgba(255, 255, 255, 0.192);
     width: 40px;
     height: 40px;
-    border: 1px solid black;
+    border: 1px solid rgba(128, 128, 128, 0.274);
     position: relative;
     padding: 0;
 }
@@ -63,8 +64,8 @@ td:hover {
 }
 
 .path {
-    background-image: url(images/path.png);
-    background-color: black;
+    /*background-image: url(images/path.png);*/
+    background-color: transparent;
 }
 
 .enemy {
@@ -93,8 +94,8 @@ td:hover {
     z-index: -1;
     width: 180px;
     height: 210px;
-    top: 250px;
-    right: 40px;
+    bottom: 80px;
+    right: 70px;
 }
 
 .shopTower {
@@ -135,7 +136,7 @@ td:hover {
 
 #heart {
     top: 80px;
-    right: 160px;
+    right: 170px;
     z-index: -1;
     width: 50px;
     height: 50px;
@@ -147,7 +148,7 @@ td:hover {
 
 #health {
     top: 80px;
-    right: 110px;
+    right: 120px;
     z-index: -1;
     width: 50px;
     height: 50px;
@@ -161,7 +162,7 @@ td:hover {
 
 #coin {
     top: 130px;
-    right: 165px;
+    right: 175px;
     z-index: -1;
     width: 40px;
     height: 40px;
@@ -173,7 +174,7 @@ td:hover {
 
 #coins {
     top: 130px;
-    right: 110px;
+    right: 120px;
     z-index: -1;
     width: 50px;
     height: 50px;
@@ -309,17 +310,17 @@ footer {
      position: absolute;
      font-size: 15px;
      top: 50px;
-     left: 125px;
+     left: 130px;
  }
 
 #server {
     background-image: url(images/server.png);
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     background-size: contain;
     position: absolute;
     background-repeat: no-repeat;
     left: 672px;
-    top: 340px;
+    top: 315px;
     z-index: -1;
 }

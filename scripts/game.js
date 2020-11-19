@@ -53,6 +53,9 @@ function Game(size) {
             case 3:
                 this.level3();
                 break;
+            case 4:
+                this.level4();
+                break;
             default:
                 this.resetCanvas();
                 this.resetGame();
@@ -77,7 +80,7 @@ function Game(size) {
         this.towersLeft = 3;
         this.maxTowers = this.towersLeft;
         this.enemySpawn = 1000;
-        document.getElementById('startScreen').style.backgroundImage = 'url("images/background2.jpg")';
+        document.getElementById('startScreen').style.backgroundImage = 'url("images/background2.png")';
         this.map = this.levels.two;
     };
 
@@ -88,6 +91,15 @@ function Game(size) {
         this.enemySpawn = 800;
         document.getElementById('startScreen').style.backgroundImage = 'url("images/background3.jpg")';
         this.map = this.levels.three;
+    };
+
+    // Ejecuta el nivel 4.
+    this.level4 = function() {
+        this.towersLeft = 4;
+        this.maxTowers = this.towersLeft;
+        this.enemySpawn = 600;
+        document.getElementById('startScreen').style.backgroundImage = 'url("images/background4.jpg")';
+        this.map = this.levels.four;
     };
 
     // Imprime el nivel en la tabla.
@@ -173,7 +185,7 @@ function Game(size) {
 
     // Elimina a los enemigos y actualiza el diplay de enemigos restantes.
     this.deleteEnemy = function (position) {
-        if (this.enemies.length > 0) {
+        if (this.enemies.length > 0 && this.enemies[position].health <= 0) {
             let enemy = document.querySelector(`tr.row${this.enemies[position].y} > td.cell${this.enemies[position].x}`);
             enemy.classList.remove('enemy');
             delete this.enemies[position];
@@ -338,7 +350,7 @@ function Game(size) {
         clearInterval(this.animateTimer);
         this.sounds.winSound.play();
         victory.style.zIndex = 2;
-        if (this.lvl < 3) {
+        if (this.lvl < 4) {
             victory.onclick = function () {
                 this.resetEnemies();
                 this.resetTowers();

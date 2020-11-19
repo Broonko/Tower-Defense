@@ -6,7 +6,6 @@ function Enemy(size) {
     this.previousX = -1;
     this.previousY = -1;
 
-
     // Imprime el enemigo en su posición actual. (game.js - line XXX)
     this.printEnemy = function () {
         // Avisa al juego que ha llegado al final de la partida.
