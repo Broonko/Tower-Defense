@@ -14,6 +14,13 @@ body {
     z-index: 2;
     margin: 0 auto;
 }
+h3 {
+    position: absolute;
+    font-size: 15px;
+    top: 100px;
+    left: 420px;
+}
+
 
 #canvas {
     font-family: 'Goldman', cursive;

@@ -3,14 +3,12 @@ function Game(size) {
     this.size = size;
     this.animateTimer;
     this.moveTimer;
-    this.projectileTimer;
     this.health = 3;
     this.towers = [];
     this.map;
     this.enemies = [];
     this.storage = [];
     this.sounds = new Sound();
-    this.enemiesInLvl;
     this.enemiesInLvlHtml = document.getElementById('enemiesLeft');
     this.towersLeft;
     this.towersLeftHtml = document.getElementById('towersLeft');
@@ -145,7 +143,7 @@ function Game(size) {
 
     // Actualiza los enemigos restantes.
     this.updateEnemies = function () {
-        this.enemiesInLvlHtml.innerText = `Enemies Left: ${this.storage.length + this.enemies.length}/${this.enemiesInLvl}`;
+        this.enemiesInLvlHtml.innerText = `Enemies Left: ${this.storage.length + this.enemies.length}/${this.enemiesPerLvl}`;
     };
 
     // Actualiza las torres restantes.
@@ -160,7 +158,7 @@ function Game(size) {
         };
     };
 
-    // Añade los enemigos al array mapa.
+    // Añade los enemigos al array que se muestra en el mapa.
     this.addEnemiesToMap = function () {
         if (this.storage.length > 0) {
             this.enemies.push(this.storage.shift());
@@ -183,7 +181,7 @@ function Game(size) {
         };
     }.bind(this);
 
-    // Elimina a los enemigos y actualiza el diplay de enemigos restantes.
+    // Elimina a los enemigos y actualiza el display de enemigos restantes.
     this.deleteEnemy = function (position) {
         if (this.enemies.length > 0 && this.enemies[position].health <= 0) {
             let enemy = document.querySelector(`tr.row${this.enemies[position].y} > td.cell${this.enemies[position].x}`);
@@ -197,7 +195,7 @@ function Game(size) {
         };
     };
 
-    // Añade onclick en las celdas del mapa.
+    // Añade onclick en las celdas del mapa para poner la torres.
     this.addClickEvent = function () {
         this.map.forEach((row, r) => {
             row.forEach((cell, c) => {
@@ -394,7 +392,6 @@ function Game(size) {
         this.sounds.backgroundMusic.loop = true;
         if (!muted) this.sounds.backgroundMusic.play();
         //--------------------------------------------------
-        this.enemiesInLvl = this.storage.length;
         this.updateEnemies();
         this.updateTowers();
         this.updateHealthDisplay();
@@ -409,6 +406,7 @@ var game = new Game(15);
 
 var muted = false;
 
+// Interacciones con el jugador
 window.onload = function () {
     // Pantalla inicial del juego (Welcome to the game).
     let welcome = document.getElementById('welcome');
@@ -436,6 +434,8 @@ window.onload = function () {
             muted = false;
         };
     };
+
+    // Seleccion de torres para comprar.
     document.addEventListener('keydown', function(event){
         if (event.key === "1") {
             game.tower = 1; 

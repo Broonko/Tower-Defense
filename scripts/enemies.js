@@ -6,7 +6,7 @@ function Enemy(size) {
     this.previousX = -1;
     this.previousY = -1;
 
-    // Imprime el enemigo en su posición actual. (game.js - line XXX)
+    // Imprime el enemigo en su posición actual.
     this.printEnemy = function () {
         // Avisa al juego que ha llegado al final de la partida.
         if (this.x < size) {
@@ -15,7 +15,7 @@ function Enemy(size) {
         };
     };
 
-    // El enemigo revisa a donde puede ir y avanza por el camino. (game.js - line XXX)
+    // El enemigo revisa a donde puede ir y avanza por el camino.
     this.moveEnemy = function (map) {
         if (map[this.y-1][this.x] === 1
             && this.previousY !== this.y-1) {

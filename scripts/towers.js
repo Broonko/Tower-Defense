@@ -3,7 +3,6 @@ function Tower() {
     this.y;
     this.range = 4;
     this.distanceToAllEnemies = [];
-    this.projectileTimer;
     this.sounds = new Sound();
 
     // Calcula la distancia de cada torre a todos los enemigos. (game.js - line XXX)
@@ -38,7 +37,7 @@ function Tower() {
     };
 };
 
-//
+// Generan los diferentes tipos de torres
 function Tower1() {
     Tower.call(this);
     this.damage = 1;
