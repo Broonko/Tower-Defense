@@ -4,7 +4,7 @@ Simple tower defense game that can be played [here](https://msrroschi.github.io/
 
 You have to prevent viruses to enter the reboot servers.
 
-##Controls:
+## Controls:
 - Click on map to build a tower
 - Click on victory to go to the next level
 - Click on game over to restart
