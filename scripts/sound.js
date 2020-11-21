@@ -13,7 +13,7 @@ function Sound() {
   this.gameOver = new Audio('sounds/gameOver.mp3');
   this.gameOver.volume = 0.025;
   this.startMusic = new Audio('sounds/start.mp3');
-  this.startMusic.volume = 0.025;
+  this.startMusic.volume = 0.075;
 
   // Pausa todos los sonidos.
   this.pauseAll = function() {
